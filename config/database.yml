@@ -6,7 +6,3 @@ production:
   host: hostname
   database: database
   password: password
-
-development:
-  adapter: sqlite3
-  database: config/btsgroup.db
