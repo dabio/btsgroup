@@ -1,5 +1,6 @@
 require 'camping'
 require 'camping/session'
+require 'digest/sha1'
 
 Camping.goes :BTS
 
@@ -28,13 +29,22 @@ class << BTS
   def messages_per_page
     config[:messages_per_page]
   end
-  
 end
 
 
 module BTS::Models
   class User < Base
     has_many :messages
+    
+    before_save :hash_password
+    
+    def self.encrypt(plain_password)
+    end
+    
+    def check_password(plain_password)
+      algo, salt, hash = self.password.split("$")
+      hash == Digest::SHA1.hexdigest([salt, plain_password].join)
+    end
   end
   
   class Message < Base
@@ -72,6 +82,7 @@ end
 module BTS::Controllers
   class Index
     def get
+      requires_login!
       if (page = @input.page.to_i) > 0
         page -= 1
       end
@@ -88,11 +99,12 @@ module BTS::Controllers
     end
     
     def post
-      @user = User.find_by_email(input.email)
-      if @user
-        @state.user_id = @user.id
+      @user = User.find_by_email(@input.email)
+      if @user and @user.check_password(@input.password)
+        @state.current_user = @user
         redirect Index
       else
+        @state.flash = "Anmeldung fehlgeschlagen!"
         redirect Login
       end
     end
@@ -101,17 +113,19 @@ module BTS::Controllers
   class Logout
     def get
       requires_login!
-      @state.user_id = nil
+      @state.user = nil
       redirect Login
     end
   end
   
   class Settings
     def get
-      
+      requires_login!
+      render :settings
     end
     
     def post
+      requires_login!
     end
   end
 end
@@ -126,8 +140,32 @@ module BTS::Views
         link :rel => "stylesheet", :href => self / "/css/style.css"
       end
       body do
+        header
+        navigation
+        flash
         self << yield
       end
+    end
+  end
+  
+  def header
+    if @current_user
+      div :class => "header" do
+        span @current_user.first_name, :class => "current_user"
+        span :class => "logout" do
+          a "Abmelden", :href => R(Logout)
+        end
+      end
+    end
+  end
+  
+  def navigation
+  end
+  
+  def flash
+    if @state.flash
+      div @state.flash, :class => "flash"
+      @state.flash = nil
     end
   end
   
@@ -146,10 +184,23 @@ module BTS::Views
   def login
     form :action => R(Login), :method => "post" do
       label "E-Mail", :for => "email"
-      input :name => "email", :type => "email"#, :autofocus => "autofocus"
+      input :name => "email", :type => "email" #, :autofocus => "autofocus"
       label "Passwort", :for => "password"
       input :name => "password", :type => "password"
       button "Anmelden", :type => "submit"
+    end
+  end
+  
+  def settings
+    form :action => R(Settings), :method => "post" do
+      label "E-Mail", :for => "email"
+      input :name => "email", :type => "email", :value => @current_user.email
+      label "Altes Passwort", :for => "old_password"
+      input :name => "old_password", :type => "password"
+      label "Neues Passwort", :for => "new_password"
+      input :name => "new_password", :type => "new_password"
+      label "Passwort wiederholen", :for => "confirm_password"
+      input :name => "confirm_password", :type => "confirm_password"
     end
   end
 end
@@ -157,10 +208,14 @@ end
 
 module BTS::Helpers
   def requires_login!
-    unless @state.user_id
-      redirect Login
+    unless current_user
+      redirect BTS::Controllers::Login
       throw :halt
     end
+  end
+  
+  def current_user
+    @current_user ||= state.current_user
   end
 end
 
