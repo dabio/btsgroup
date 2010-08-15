@@ -1,9 +1,12 @@
 require 'camping'
+require 'camping/session'
 
 Camping.goes :BTS
 
 
 module BTS
+  include Camping::Session
+
   use Rack::Static, :urls => ['/css', '/js', '/images', '/favicon.ico'], :root => 'public'
   use Rack::CommonLogger
 end
@@ -21,6 +24,11 @@ class << BTS
   def title
     config[:title]
   end
+  
+  def messages_per_page
+    config[:messages_per_page]
+  end
+  
 end
 
 
@@ -60,6 +68,7 @@ module BTS::Models
   end
 end
 
+
 module BTS::Controllers
   class Index
     def get
@@ -67,14 +76,14 @@ module BTS::Controllers
         page -= 1
       end
       # fetch messages
-      @messages = Message.all :offset => page * 20, :limit => 20, :order => "created_at DESC"
+      @messages = Message.all :offset => page * BTS.messages_per_page,
+        :limit => BTS.messages_per_page, :order => "created_at DESC"
       render :list
     end
   end
   
   class Login
     def get
-      #@state.user_id = 1
       render :login
     end
     
@@ -82,14 +91,27 @@ module BTS::Controllers
       @user = User.find_by_email(input.email)
       if @user
         @state.user_id = @user.id
+        redirect Index
+      else
+        redirect Login
       end
     end
   end
   
   class Logout
     def get
+      requires_login!
       @state.user_id = nil
       redirect Login
+    end
+  end
+  
+  class Settings
+    def get
+      
+    end
+    
+    def post
     end
   end
 end
@@ -101,14 +123,13 @@ module BTS::Views
     html do
       head do
         title BTS.title
-        link :rel => "stylesheet", :href => "/css/style.css"
+        link :rel => "stylesheet", :href => self / "/css/style.css"
       end
       body do
         self << yield
       end
     end
   end
-  
   
   def list
     ul do
@@ -118,11 +139,28 @@ module BTS::Views
           div message.user.first_name
         end
       end
+      a "next", :href => R(Index, :page => @input.page.to_i + 1)
     end
   end
   
   def login
-    
+    form :action => R(Login), :method => "post" do
+      label "E-Mail", :for => "email"
+      input :name => "email", :type => "email"#, :autofocus => "autofocus"
+      label "Passwort", :for => "password"
+      input :name => "password", :type => "password"
+      button "Anmelden", :type => "submit"
+    end
+  end
+end
+
+
+module BTS::Helpers
+  def requires_login!
+    unless @state.user_id
+      redirect Login
+      throw :halt
+    end
   end
 end
 
