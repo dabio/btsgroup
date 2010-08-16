@@ -36,14 +36,16 @@ module BTS::Models
   class User < Base
     has_many :messages
     
-    before_save :hash_password
-    
-    def self.encrypt(plain_password)
+    def encrypt_password(plain_password)
+      algo = 'sha1'
+      salt = Array.new(3) { rand(256) }.pack('C*').unpack('H*').first
+      hash = Digest::SHA1.hexdigest(salt + plain_password)
+      [algo, salt, hash].join('$')
     end
     
     def check_password(plain_password)
       algo, salt, hash = self.password.split("$")
-      hash == Digest::SHA1.hexdigest([salt, plain_password].join)
+      hash == Digest::SHA1.hexdigest(salt + plain_password)
     end
   end
   
@@ -126,6 +128,19 @@ module BTS::Controllers
     
     def post
       requires_login!
+      current_user.email = @input.email
+      if current_user.check_password(@input.old_password)
+        if @input.new_password == @input.confirm_password
+          current_user.password = current_user.encrypt_password(@input.new_password)
+        else
+          @state.flash = "Passwörter stimmen nicht überein"
+          redirect Settings
+          throw :halt
+        end
+      end
+      current_user.save
+      @state.flash = "Einstellungen gesichert."
+      redirect Index
     end
   end
 end
@@ -151,7 +166,10 @@ module BTS::Views
   def header
     if @current_user
       div :class => "header" do
-        span @current_user.first_name, :class => "current_user"
+        span "Hallo " << @current_user.first_name, :class => "current_user"
+        span :class => "settings" do
+          a "Einstellungen", :href => R(Settings)
+        end
         span :class => "logout" do
           a "Abmelden", :href => R(Logout)
         end
@@ -160,6 +178,8 @@ module BTS::Views
   end
   
   def navigation
+    if @current_user
+    end
   end
   
   def flash
@@ -198,9 +218,10 @@ module BTS::Views
       label "Altes Passwort", :for => "old_password"
       input :name => "old_password", :type => "password"
       label "Neues Passwort", :for => "new_password"
-      input :name => "new_password", :type => "new_password"
+      input :name => "new_password", :type => "password"
       label "Passwort wiederholen", :for => "confirm_password"
-      input :name => "confirm_password", :type => "confirm_password"
+      input :name => "confirm_password", :type => "password"
+      button "Speichern", :type => "submit"
     end
   end
 end
