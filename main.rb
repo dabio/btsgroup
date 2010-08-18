@@ -97,9 +97,11 @@ post '/settings' do
   attributes[:password] = params['password'] unless params['password'].empty?
   attributes[:password_confirmation] = params['password_confirmation'] unless params['password_confirmation'].empty?
 
-  @person.update(attributes)
+  if @person.update(attributes)
+    redirect '/'
+  end
 
-  redirect '/'
+  haml :settings
 end
 
 #get '/setup' do

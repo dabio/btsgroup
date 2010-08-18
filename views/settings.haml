@@ -1,3 +1,8 @@
+- if @person.errors.length > 0
+  %ol#notice.error
+    - @person.errors.each do |error|
+      %li= error
+
 %form#settings{:action => "/settings", :method => "post"}
   %label{:for => "email"} E-Mail
   %input{:name => "email", :type => "email", :value => @person.email}
