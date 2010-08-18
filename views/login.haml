@@ -1,0 +1,6 @@
+%form#login{:action => "/login", :method => "post"}
+  %label{:for => "email"} E-Mail
+  %input{:name => "email", :type => "email", :autofocus => "autofocus"}
+  %label{:for => "password"} Passwort
+  %input{:name => "password", :type => "password"}
+  %button{:type => "submit"} Anmelden

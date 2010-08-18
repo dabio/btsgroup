@@ -1,0 +1,8 @@
+%form#settings{:action => "/settings", :method => "post"}
+  %label{:for => "email"} E-Mail
+  %input{:name => "email", :type => "email", :value => @person.email}
+  %label{:for => "password"} Neues Passwort
+  %input{:name => "password", :type => "password"}
+  %label{:for => "password_confirmation"} Passwort wiederholen
+  %input{:name => "password_confirmation", :type => "password"}
+  %button{:type => "submit"} Speichern
