@@ -32,7 +32,7 @@ class Person
   private
 
    def password_required?
-     password.blank? or !password.blank?
+     !password.empty?
    end
 
 end
