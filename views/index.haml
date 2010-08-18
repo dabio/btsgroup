@@ -1,0 +1,5 @@
+%ul
+  - @messages.each do |message|
+    %li
+      %div= message.text
+      %div= message.person.first_name
