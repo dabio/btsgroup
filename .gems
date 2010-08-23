@@ -1,2 +1,8 @@
 sinatra
 haml
+dm-core
+dm-aggregates
+dm-timestamps
+dm-types
+dm-validations
+dm-is-page-by-page
