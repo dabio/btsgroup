@@ -1,0 +1,11 @@
+%p#pagination
+  - if (@page.to_i - 1) > 0
+    %a{:href => "#{path}#{"?page=#{@page.to_i - 1}" if (@page.to_i - 1) != 1}", :title => "Go to previous page."}« zurück
+  - else
+    « zurück
+  %span.sep
+    |
+  - if @page.to_i < @count
+    %a{:href => "#{path}?page=#{@page.to_i + 1}", :title => "Go to the next page."} vor »
+  - else
+    vor »

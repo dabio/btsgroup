@@ -1,5 +1,15 @@
-%ul
-  - @messages.each do |message|
-    %li
-      %div= message.text
-      %div= message.person.first_name
+- if @page == 1
+  %form#message{:action => "/", :method => "post"}
+    %label{:for => "text"} Text
+    %textarea{:autofocus => "autofocus", :name => "text", :required => "required"}
+    %button{:type => "submit"} Los!
+
+- if @count > 0
+  %ul#messages
+    - @messages.each do |message|
+      %li
+        %div.message
+          = message.text
+        %div.person
+          = message.person.first_name
+  = paginator('/')

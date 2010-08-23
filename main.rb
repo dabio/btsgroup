@@ -9,14 +9,13 @@ end
 
 
 configure do
-  BTS = OpenStruct.new(
-    :title => 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"',
-    :messages_per_page => 20,
-    :cookie_key => "bts_user"
-  )
+  use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
 
   DataMapper::Logger.new($stdout, :debug)
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:.db')
+
+  set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
+  set :per_page, 20
 
   set :haml, {:format => :html5, :ugly => true}
 
@@ -25,12 +24,8 @@ end
 
 
 helpers do
-  def paginator(path)
-    haml :pagination, :layout => false, :locals => {:path => path} if @count > 1
-  end
-
   def current_page
-    @page = params[:page] and params[:page].match(/\d+/) ? params[:page].to_i : 1
+    @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
   end
 
   def current_person
@@ -51,6 +46,11 @@ helpers do
   def logged_in?
     !session[:person_id].nil?
   end
+
+  def paginator(path)
+    haml :pagination, :escape_html => false, :layout => false,
+      :locals => {:path => path} if @count > 1
+  end
 end
 
 layout 'layout'
@@ -60,8 +60,20 @@ layout 'layout'
 
 get '/'  do
   needs_login
-  @messages = Message.display_messages params[:page].to_i
+  #current_page().to_s
+  @count, @messages = Message.paginated(:page => current_page,
+    :per_page => options.per_page, :order => [:created_at.desc])
   haml :index
+end
+
+post '/' do
+  needs_login
+
+  @message = Message.new(params)
+  @message.person = current_person
+  @message.save
+
+  redirect '/'
 end
 
 get '/login' do

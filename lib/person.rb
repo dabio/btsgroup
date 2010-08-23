@@ -7,8 +7,6 @@ require 'dm-validations'
 class Person
   include DataMapper::Resource
 
-  has n, :messages
-
   property :id,         Serial
   property :first_name, String, :required => true
   property :last_name,  String, :required => true
@@ -16,8 +14,9 @@ class Person
   property :password,   BCryptHash
   property :birthday,   DateTime
   property :last_seen,  DateTime
-
   timestamps :at
+
+  has n, :messages
 
   attr_accessor :password_confirmation
 
@@ -31,8 +30,7 @@ class Person
 
   private
 
-   def password_required?
-     !password.empty?
-   end
-
+    def password_required?
+      !password.empty?
+    end
 end
