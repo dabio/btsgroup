@@ -1,5 +1,6 @@
 sinatra
 haml
+bcrypt
 dm-core
 dm-aggregates
 dm-timestamps
