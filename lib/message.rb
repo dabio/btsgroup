@@ -8,8 +8,8 @@ require 'dm-is-page-by-page'
 class Message
   include DataMapper::Resource
 
-  property :id,         Serial
-  property :text,       Text,     :required => true, :lazy => false
+  property :id,   Serial
+  property :text, Text,   :required => true, :lazy => false
   timestamps :at
 
   belongs_to :person
