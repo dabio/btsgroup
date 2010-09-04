@@ -1,15 +1,25 @@
-- if @page == 1
-  %form#message{:action => "/", :method => "post"}
-    %label{:for => "text"} Text
-    %textarea{:autofocus => "autofocus", :name => "text", :required => "required"}
-    %button{:type => "submit"} Los!
+%section#center
+  - if @page == 1
+    %form#message{:action => "/", :method => "post"}
+      %fieldset
+        %label{:for => "text"} Text
+        %textarea{:autofocus => "autofocus", :name => "text", :required => "required"}
+        %button{:type => "submit"} Los!
 
-- if @count > 0
-  %ul#messages
-    - @messages.each do |message|
+  - if @count > 0
+    %ul#messages
+      - @messages.each do |message|
+        %li
+          %div.message
+            = message.text
+            %div.person
+            = message.person.first_name
+    = paginator('/')
+
+%section#right-wrapper
+  %ul#visits
+    - @visits.each do |visit|
       %li
-        %div.message
-          = message.text
-        %div.person
-          = message.person.first_name
-  = paginator('/')
+        = timesince(visit.updated_at)
+        = visit.person.first_name
+  
