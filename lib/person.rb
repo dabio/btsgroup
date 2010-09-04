@@ -13,10 +13,10 @@ class Person
   property :email,      String, :length => 255
   property :password,   BCryptHash
   property :birthday,   DateTime
-  property :last_seen,  DateTime
   timestamps :at
 
   has n, :messages
+  has n, :visits
 
   attr_accessor :password_confirmation
 
