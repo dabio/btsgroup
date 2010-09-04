@@ -75,18 +75,15 @@ helpers do
       [60,                  lambda {|n| pluralize('Minute', 'Minuten', n)}]
     ]
 
-    ret = ''
-    i = 0
+    ret = []
 
     chunks.each do |seconds, name|
       amount, delta = delta.divmod(seconds)
-      if amount > 0
-        ret << "#{amount} #{name[amount]} "
-        i += 1
-      end
-      break if i > 1
+      ret.push("#{amount} #{name[amount]}") if amount > 0
+      break if ret.length > 1
     end
-    ret.strip
+
+    ret.join(', ')
   end
 end
 
