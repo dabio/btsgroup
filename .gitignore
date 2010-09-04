@@ -1,3 +1,4 @@
 .db
 *.log
 db/
+.sass-cache
