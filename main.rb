@@ -1,7 +1,5 @@
 require 'rubygems'
-require 'sinatra'
-require 'haml'
-
+%w(sinatra haml).each {|gem| require gem}
 
 Dir.glob('lib/*.rb') do |lib|
   require lib
@@ -23,73 +21,8 @@ configure do
 end
 
 
-helpers do
-  def current_page
-    @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
-  end
-
-  def current_person
-    Person.first(:id => session[:person_id])
-  end
-
-  def log_visit
-    visit = Visit.first_or_create(:person => current_person)
-    visit.updated_at = Time.now
-    visit.save
-  end
-
-  def logged_in_as(person)
-    session[:person_id] = person.id
-  end
-
-  def needs_login
-    unless logged_in?
-      session[:redirect] = request.fullpath
-      redirect '/login'
-    end
-  end
-
-  def logged_in?
-    !session[:person_id].nil?
-  end
-
-  def paginator(path)
-    haml :pagination, :escape_html => false, :layout => false,
-      :locals => {:path => path} if @count > 1
-  end
-
-  def pluralize(singular, plural, amount)
-      amount > 1 ? plural : singular
-  end
-
-  def timesince(d, now=Time.now)
-    delta = (now - d).to_i
-    return '0 Minuten' if delta <= 60
-
-    chunks = [
-      [60 * 60 * 24 * 356,  lambda {|n| pluralize('Jahr', 'Jahre', n)}],
-      [60 * 60 * 24 * 30,   lambda {|n| pluralize('Monat', 'Monate', n)}],
-      [60 * 60 * 24 * 7,    lambda {|n| pluralize('Woche', 'Wochen', n)}],
-      [60 * 60 * 24,        lambda {|n| pluralize('Tag', 'Tage', n)}],
-      [60 * 60,             lambda {|n| pluralize('Stunde', 'Stunden', n)}],
-      [60,                  lambda {|n| pluralize('Minute', 'Minuten', n)}]
-    ]
-
-    ret = []
-
-    chunks.each do |seconds, name|
-      amount, delta = delta.divmod(seconds)
-      ret.push("#{amount} #{name[amount]}") if amount > 0
-      break if ret.length > 1
-    end
-
-    ret.join(', ')
-  end
-end
-
-
 before do
-  needs_login unless request.path_info == '/login'
+  require_login unless request.path_info == '/login'
 end
 
 after do
@@ -104,10 +37,10 @@ layout 'layout'
 get '/'  do
   #current_page().to_s
   @count, @messages = Message.paginated(:page => current_page,
-    :per_page => options.per_page, :order => [:created_at.desc])
-  
+    :per_page => 20, :order => [:created_at.desc])
+
   @visits = Visit.all(:order => [:updated_at.desc])
-  
+
   haml :index
 end
 
@@ -156,6 +89,8 @@ post '/settings' do
 
   haml :settings
 end
+
+error do redirect '/' end
 
 #get '/setup' do
 #  require 'dm-migrations'

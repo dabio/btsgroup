@@ -3,7 +3,7 @@
     %form#message{:action => "/", :method => "post"}
       %fieldset
         %label{:for => "text"} Text
-        %textarea{:autofocus => "autofocus", :name => "text", :required => "required"}
+        %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
         %button{:type => "submit"} Los!
 
   - if @count > 0
