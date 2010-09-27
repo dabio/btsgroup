@@ -5,6 +5,19 @@ require 'dm-types'
 require 'dm-validations'
 require 'dm-is-page-by-page'
 
+DataMapper::Logger.new($stdout, :debug)
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:.db')
+
+class Visit
+  include DataMapper::Resource
+
+  property :id,   Serial
+  property :url,  URI
+  timestamps :at
+
+  belongs_to :person
+end
+
 
 class Person
   include DataMapper::Resource
@@ -50,16 +63,5 @@ class Message
   validates_presence_of :text
 
   is :paginated
-end
-
-
-class Visit
-  include DataMapper::Resource
-
-  property :id,   Serial
-  property :url,  URI
-  timestamps :at
-
-  belongs_to :person
 end
 

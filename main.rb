@@ -9,11 +9,7 @@ end
 configure do
   use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
 
-  DataMapper::Logger.new($stdout, :debug)
-  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:.db')
-
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
-  set :per_page, 20
 
   set :haml, {:format => :html5, :ugly => true}
 
