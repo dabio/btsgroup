@@ -38,7 +38,7 @@ helpers do
   end
 
   def timesince(d, now=Time.now)
-    delta = (now - d).to_i
+    delta = (now - d.to_time).to_i
     return '0 Minuten' if delta <= 60
 
     chunks = [
