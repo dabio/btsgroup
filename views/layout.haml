@@ -5,9 +5,11 @@
     %title= options.title
     %link{:href => "/css/styles.css", :rel => "stylesheet"}
   %body
-    %header
-    %nav
-    %div#wrapper
-      = yield
-    %footer
+    %section#content
+      %header
+        %a{:href => "/", :title => "btsgroup"}
+          %img{:src => "/img/header.gif", :alt => "btsgroup"}
+      %div#content
+        = yield
+      %footer
     %script{:src => "/js/btsgroup.js"}

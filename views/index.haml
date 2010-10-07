@@ -1,19 +1,20 @@
-%section#center
-  - if @page == 1
-    %form#message{:action => "/", :method => "post"}
-      %fieldset
-        %label{:for => "text"} Text
-        %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
-        %button{:type => "submit"} Los!
+%section#main
+  %ul#messages
+    - if @page == 1
+      %li.first
+        %form#message{:action => "/", :method => "post"}
+          %fieldset
+            %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
+            %button{:type => "submit"} Up-Chicken!
 
-  - if @count > 0
-    %ul#messages
-      - @messages.each do |message|
-        %li
-          %div.message
-            = message.text
-            %div.person
-            = message.person.first_name
+      - if @count > 0
+        - @messages.each do |message|
+          %li
+            %time{:datetime => ""}
+              = "#{message.person.first_name}, vor #{timesince(message.created_at)}"
+            %div.message
+              = auto_link(message.text)
+            = "<img src=\"/users/#{message.person.first_name}.png\"/ alt=\"#{message.person.first_name}\" class=\"user_image\">"
     = paginator('/')
 
 %section#right-wrapper
