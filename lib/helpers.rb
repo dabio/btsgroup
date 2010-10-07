@@ -1,4 +1,30 @@
 helpers do
+  include Rack::Utils
+  alias :h :escape_html
+
+  # Taken from rails
+  AUTO_LINK_RE = %r{(?:([\w+.:-]+:)//|www\.)[^\s<]+}x
+  BRACKETS = {']' => '[', ')' => '(', '}' => '{'}
+  def auto_link(text, html_options={})
+    text.gsub(AUTO_LINK_RE) do
+      scheme, href = $1, $&
+      punctuation = []
+      # don't include trailing punctiation character as part of the URL
+      while href.sub!(/[^\w\/-]$/, '')
+        punctuation.push $&
+        if opening = BRACKETS[punctuation.last] and href.scan(opening).size > href.scan(punctuation.last).size
+          href << punctuation.pop
+          break
+        end
+      end
+
+      link_text = block_given? ? yield(href) : href
+      href = 'http://' + href unless scheme
+
+      "<a href=\"#{href}\">#{h(link_text)}</a>" + punctuation.reverse.join('')
+    end
+  end
+
   def current_page
     @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
   end
