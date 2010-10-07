@@ -2,3 +2,5 @@
 *.log
 db/
 .sass-cache
+*.swp
+.DS_Store
