@@ -12,4 +12,12 @@
       %div#content
         = yield
       %footer
+        %a{ :href => "http://github.com/dabio/btsgroup",
+            :title => "source is here"} get the source
+      %section#user
+        %ul
+          %li
+            %a.settings{:title => 'Einstellungen'} Einstellungen
+          %li
+            %a{:href => '/logout', :title => 'Abmelden'} Abmelden
     %script{:src => "/js/btsgroup.js"}
