@@ -16,13 +16,48 @@ body
   color: $body_color
   font: 14px/25px "Trebuchet MS", Verdana, Arial, sans-serif
 
+button
+  background: url(/img/button_bg.gif) repeat-x
+  border: 1px solid #1d1d1f
+  color: #ececec
+  display: block
+  font-size: 11px
+  height: 25px
+  margin-top: 3px
+  text-shadow: #000 1px 1px 1px
+  width: 80px
+
+h2
+  color: #778796
+  font-size: 18px
+  text-shadow: #000 1px 1px 1px
+
+html
+  background-color: $body_background-color
+
+input, textarea
+  border: 1px solid #bbbbbb
+  border-top: 1px solid #aeaeae
+
+input
+  line-height: 18px
+
+p
+  margin-bottom: 25px
+
+textarea
+  height: 75px
+  line-height: 25px
+  width: 378px
+
+
 #content
   margin: 0 auto
+  position: relative
   width: 860px
 
 header
-  //background: url(/img/header.gif) 32px 47px no-repeat
-  height: 100px
+  height: 125px
   a
     display: block
     float: left
@@ -31,42 +66,89 @@ header
     margin-left: 32px
     width: 265
 
+footer
+  clear: both
+  font-size: 10px
+  padding: 25px 80px
+  //text-shadow: #000 1px 1px 1px
+
 #messages
+  float: left
+  overflow: auto
   width: 540px
   li
     margin-bottom: 25px
+    overflow: auto
     time
       color: #778796
       display: block
       font-size: 10px
-      line-height: 10px
+      line-height: 14px
       margin: 0 80px
-      padding-top: 15px
+      padding-top: 11px
       text-shadow: #000 1px 1px 1px
     .message
       margin-left: 80px
       margin-right: 80px
-    img.user_image
-      border: 1px solid #ececec
+    aside
+      float: left
+      margin-left: 20px
+      overflow: auto
+      img
+        border: 1px solid #ececec
+        display: block
+        float: left
+    aside.right
+      float: right
+      margin-left: 0
+      margin-right: 20px
   li.first
     margin-bottom: 0
+    aside.right
+      margin-top: 25px
 
 #message
   padding-bottom: 12px
-  textarea
-    border: 1px solid #bbbbbb
-    border-top: 1px solid #aeaeae
-    height: 73px
-    margin: 25px 80px 0 80px
-    width: 378px
+  margin: 25px 80px 0 80px
   button
-    background: url(/img/button_bg.gif) repeat-x
-    border: 1px solid #1d1d1f
-    color: #ececec
+    margin-left: 301px
+
+#visits
+  margin-left: 560px
+  margin-top: -25px
+
+#pagination
+  clear: both
+  color: #363f47
+  font-size: 10px
+  padding: 0 80px
+  em
+    color: #778796
+
+#user
+  font-size: 10px
+  left: 560px
+  position: absolute
+  text-shadow: #000 1px 1px 1px
+  top: 0
+  li
+    display: inline
+  a
+    color: #778796
+    margin-right: 10px
+  .settings
+    background: url(/img/arrow_down.gif) no-repeat 100% 4px
+    cursor: pointer
+    padding-right: 11px
+
+#login
+  margin: 100px auto
+  width: 270px
+  label
     display: block
-    font-size: 11px
-    height: 25px
-    margin-left: 381px
-    margin-top: 5px
-    text-shadow: #000 1px 1px 1px
-    width: 80px
+    float: left
+    margin-right: 5px
+    text-align: right
+    width: 75px
+  button
+    margin-left: 79px
