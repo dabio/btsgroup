@@ -49,7 +49,10 @@ post '/' do
 end
 
 get '/login' do
-  haml :login
+  if logged_in?
+    redirect '/'
+  end
+  haml :login, :layout => false
 end
 
 post '/login' do
