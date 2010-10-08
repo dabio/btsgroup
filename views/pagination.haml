@@ -1,11 +1,12 @@
 %p#pagination
+  %em Zeit:
   - if (@page.to_i - 1) > 0
-    %a{:href => "#{path}#{"?page=#{@page.to_i - 1}" if (@page.to_i - 1) != 1}", :title => "Go to previous page."}« zurück
+    %a{:href => "#{path}#{"?page=#{@page.to_i - 1}" if (@page.to_i - 1) != 1}", :title => "später"}« später
   - else
-    « zurück
+    « später
   %span.sep
-    |
+    &middot;
   - if @page.to_i < @count
-    %a{:href => "#{path}?page=#{@page.to_i + 1}", :title => "Go to the next page."} vor »
+    %a{:href => "#{path}?page=#{@page.to_i + 1}", :title => "früher"} früher »
   - else
-    vor »
+    früher »
