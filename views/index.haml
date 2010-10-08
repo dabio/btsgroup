@@ -2,25 +2,32 @@
   %ul#messages
     - if @page == 1
       %li.first
+        %aside.right
+          = "<img src=\"/users/#{current_person.first_name}.png\" alt=\"#{current_person.first_name}\"/>"
         %form#message{:action => "/", :method => "post"}
           %fieldset
             %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
             %button{:type => "submit"} Up-Chicken!
 
-      - if @count > 0
-        - @messages.each do |message|
-          %li
-            %time{:datetime => ""}
+    - if @count > 0
+      - @messages.each do |message|
+        %li
+          %time{:datetime => "#{message.created_at}"}
+            - if message.created_at.to_time.to_i < 2592000
               = "#{message.person.first_name}, vor #{timesince(message.created_at)}"
-            %div.message
-              = auto_link(message.text)
-            = "<img src=\"/users/#{message.person.first_name}.png\"/ alt=\"#{message.person.first_name}\" class=\"user_image\">"
+            - else
+              = "#{message.person.first_name}, am #{message.created_at.strftime('%a, %d. %b. %Y %H:%M')} Uhr"
+          %aside{:class => message.person == current_person && "right"}
+            = "<img src=\"/users/#{message.person.first_name}.png\" alt=\"#{message.person.first_name}\" class=\"user_image\"/>"
+          .message[message]
+            = simple_format(auto_link(message.text.strip))
     = paginator('/')
 
-%section#right-wrapper
-  %ul#visits
-    - @visits.each do |visit|
-      %li
-        = timesince(visit.updated_at)
-        = visit.person.first_name
+- if @page == 1
+  %section#visits
+    %h2 Besucher
+    %ul
+      - @visits.each do |visit|
+        %li
+          = "#{visit.person.first_name} (vor #{timesince(visit.updated_at)})"
   
