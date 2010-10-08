@@ -52,10 +52,6 @@ helpers do
       :locals => {:path => path} if @count > 1
   end
 
-  def pluralize(singular, plural, amount)
-      amount > 1 ? plural : singular
-  end
-
   def require_login
     unless logged_in?
       session[:redirect] = request.fullpath
@@ -63,24 +59,35 @@ helpers do
     end
   end
 
+  def simple_format(text)
+    text = '' if text.nil?
+    start_tag = '<p>'
+    text.gsub!(/\r\n?/, "\n")
+    text.gsub!(/\n\n+/, "</p>\n\n#{start_tag}")
+    text.gsub!(/([^\n]\n)(?=[^\n])/, '\1<br />')
+    text.insert(0, start_tag)
+    text.concat("</p>")
+  end
+
   def timesince(d, now=Time.now)
     delta = (now - d.to_time).to_i
     return '0 Minuten' if delta <= 60
 
     chunks = [
-      [60 * 60 * 24 * 356,  lambda {|n| pluralize('Jahr', 'Jahre', n)}],
-      [60 * 60 * 24 * 30,   lambda {|n| pluralize('Monat', 'Monate', n)}],
-      [60 * 60 * 24 * 7,    lambda {|n| pluralize('Woche', 'Wochen', n)}],
-      [60 * 60 * 24,        lambda {|n| pluralize('Tag', 'Tage', n)}],
-      [60 * 60,             lambda {|n| pluralize('Stunde', 'Stunden', n)}],
-      [60,                  lambda {|n| pluralize('Minute', 'Minuten', n)}]
+      [60 * 60 * 24 * 356, 'Jahr',   'Jahre'],
+      [60 * 60 * 24 * 30,  'Monat',  'Monate'],
+      [60 * 60 * 24 * 7,   'Woche',  'Wochen'],
+      [60 * 60 * 24,       'Tag',    'Tage'],
+      [60 * 60,            'Stunde', 'Stunden'],
+      [60,                 'Minute', 'Minuten']
     ]
 
     ret = []
+    pluralize = lambda {|amount, singular, plural| amount > 1 ? plural : singular}
 
-    chunks.each do |seconds, name|
+    chunks.each do |seconds, singular, plural|
       amount, delta = delta.divmod(seconds)
-      ret.push("#{amount} #{name[amount]}") if amount > 0
+      ret.push("#{amount} #{pluralize[amount, singular, plural]}") if amount > 0
       break if ret.length > 1
     end
 
