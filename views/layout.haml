@@ -17,7 +17,17 @@
       %section#user
         %ul
           %li
-            %a.settings{:title => 'Einstellungen'} Einstellungen
+            %a#settings_button{:title => 'Einstellungen'} Einstellungen
           %li
             %a{:href => '/logout', :title => 'Abmelden'} Abmelden
+      %section#settings
+        %form{:action => '/settings', :method => 'post'}
+          %fieldset
+            %label{:for => 'email'} E-Mail
+            %input{:name => 'email', :type => 'email', :value => current_person.email}
+            %label{:for => 'password'} Passwort
+            %input{:name => 'password', :type => 'password'}
+            %label{:for => 'confirm_password'} Wiederholung
+            %input{:name => 'confirm_password', :type => 'password'}
+            %button{:type => "submit"} Speichern
     %script{:src => "/js/btsgroup.js"}
