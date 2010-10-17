@@ -3,7 +3,7 @@ require 'dm-aggregates'
 require 'dm-timestamps'
 require 'dm-types'
 require 'dm-validations'
-require 'dm-is-page-by-page'
+#require 'dm-is-page-by-page'
 
 #DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:local.db')
@@ -60,6 +60,22 @@ class Message
 
   validates_presence_of :text
 
-  is :paginated
+  def self.paginated(options = {})
+    page = options.delete(:page) || 1
+    per_page = options.delete(:per_page) || 5
+
+    options.reverse_merge!({
+      :order => [:id.desc]
+    })
+
+    page_count = (count(options.except(:order)).to_f / per_page).ceil
+
+    options.merge!({
+      :limit => per_page,
+      :offset => (page - 1) * per_page
+    })
+
+    [ page_count, all(options) ]
+  end
 end
 

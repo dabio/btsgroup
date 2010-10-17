@@ -1,7 +1,6 @@
 bcrypt-ruby
 dm-aggregates
 dm-core
-dm-is-page-by-page
 dm-postgres-adapter
 dm-timestamps
 dm-types
