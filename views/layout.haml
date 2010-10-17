@@ -7,27 +7,29 @@
   %body
     %section#content
       %header
-        %a{:href => "/", :title => "btsgroup"}
-          %img{:src => "/img/header.gif", :alt => "btsgroup"}
-      %div#content
+        %h1
+          %a{:href => "/", :title => "btsgroup"} BTS group
+        %nav
+          %ul
+            %li
+              %a#settings_button{:title => 'Einstellungen'} Einstellungen
+            %li
+              %a{:href => '/logout', :title => 'Abmelden'} Abmelden
+        %section#settings
+          %form{:action => '/settings', :method => 'post'}
+            %fieldset
+              %label{:for => 'email'} E-Mail
+              %input{:name => 'email', :type => 'email', :value => current_person.email}
+              %h2 Passwort ändern. Nur ausfüllen, wenn Passwort geändert werden soll.
+              %label{:for => 'password'} Passwort
+              %input{:name => 'password', :type => 'password'}
+              %label{:for => 'password_confirmation'} Wiederholung
+              %input{:name => 'password_confirmation', :type => 'password'}
+              %button{:type => "submit"} Speichern
+      %section#main
         = yield
       %footer
         %a{ :href => "http://github.com/dabio/btsgroup",
-            :title => "source is here"} get the source
-      %section#user
-        %ul
-          %li
-            %a#settings_button{:title => 'Einstellungen'} Einstellungen
-          %li
-            %a{:href => '/logout', :title => 'Abmelden'} Abmelden
-      %section#settings
-        %form{:action => '/settings', :method => 'post'}
-          %fieldset
-            %label{:for => 'email'} E-Mail
-            %input{:name => 'email', :type => 'email', :value => current_person.email}
-            %label{:for => 'password'} Passwort
-            %input{:name => 'password', :type => 'password'}
-            %label{:for => 'confirm_password'} Wiederholung
-            %input{:name => 'confirm_password', :type => 'password'}
-            %button{:type => "submit"} Speichern
+            :title => "source is here"} grab the source
+    %script{:src => '/js/jquery.min.js'}
     %script{:src => "/js/btsgroup.js"}
