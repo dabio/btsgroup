@@ -82,7 +82,7 @@ post '/settings' do
   redirect '/'
 end
 
-error do redirect '/' end
+#error do redirect '/' end
 
 #get '/setup' do
 #  require 'dm-migrations'
