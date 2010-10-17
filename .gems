@@ -1,9 +1,10 @@
-sinatra
-haml
-bcrypt
-dm-core
+bcrypt-ruby
 dm-aggregates
+dm-core
+dm-is-page-by-page
+dm-postgres-adapter
 dm-timestamps
 dm-types
 dm-validations
-dm-is-page-by-page
+haml
+sinatra
