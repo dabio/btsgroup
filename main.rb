@@ -1,5 +1,5 @@
 require 'rubygems'
-%w(sinatra haml).each {|gem| require gem}
+%w(sinatra haml exceptional).each {|gem| require gem}
 
 Dir.glob('lib/*.rb') do |lib|
   require lib
@@ -14,10 +14,28 @@ configure do
   set :haml, {:format => :html5, :ugly => true}
 
   enable :sessions
+
+  set :domain, 'cloud.btsgroup.de'
+end
+
+configure :production do
+  set :raise_errors, false
+  Exceptional.configure ENV['EXCEPTIONAL_API_KEY']
+  Exceptional::Remote.startup_announce(
+    ::Exceptional::ApplicationEnvironment.to_hash('sinatra'))
+  error do
+    Exceptional::Catcher.handle_with_rack(
+      request.env['sinatra.error'], request.env, request)
+  end
 end
 
 
 before do
+  # redirect to domain in settings
+  if ENV['RACK_ENV'] == 'production' and request.host != settings.domain
+    redirect "#{settings.domain}#{request.path_info}"
+  end
+
   require_login unless ['/login', '/setup'].include?(request.path_info)
 end
 
