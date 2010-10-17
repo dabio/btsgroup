@@ -12,7 +12,6 @@ class Visit
   include DataMapper::Resource
 
   property :id,   Serial
-  property :url,  URI
   timestamps :at
 
   belongs_to :person
@@ -27,7 +26,6 @@ class Person
   property :last_name,  String, :required => true
   property :email,      String, :length => 255
   property :password,   BCryptHash
-  property :birthday,   DateTime
   timestamps :at
 
   has n, :messages
