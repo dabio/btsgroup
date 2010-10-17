@@ -7,4 +7,5 @@ dm-types
 dm-validations
 exceptional
 haml
+json
 sinatra
