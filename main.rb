@@ -22,7 +22,7 @@ end
 before do
   # redirect to domain in settings
   if ENV['RACK_ENV'] == 'production' and request.host != settings.domain
-    redirect "#{settings.domain}#{request.path_info}"
+    redirect "http://#{settings.domain}#{request.path_info}"
   end
 
   require_login unless ['/login', '/setup'].include?(request.path_info)
