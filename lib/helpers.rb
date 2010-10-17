@@ -29,8 +29,13 @@ helpers do
     @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
   end
 
+  @@current_person = nil
+
   def current_person
-    Person.first(:id => session[:person_id])
+    unless @@current_person
+      @@current_person = Person.first(:id => session[:person_id])
+    end
+    @@current_person
   end
 
   def log_visit
