@@ -6,7 +6,7 @@ require 'dm-validations'
 require 'dm-is-page-by-page'
 
 #DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:.db')
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:local.db')
 
 class Visit
   include DataMapper::Resource
