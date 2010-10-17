@@ -18,11 +18,11 @@ end
 
 
 before do
-  require_login unless request.path_info == '/login'
+  require_login unless ['/login', '/setup'].include?(request.path_info)
 end
 
 after do
-  log_visit unless ['/login', '/logout'].include?(request.path_info)
+  log_visit unless ['/login', '/logout', '/setup'].include?(request.path_info)
 end
 
 
@@ -69,11 +69,6 @@ get '/logout' do
   redirect '/login'
 end
 
-get '/settings' do
-  @person = current_person
-  haml :settings
-end
-
 post '/settings' do
   @person = current_person
 
@@ -82,11 +77,9 @@ post '/settings' do
   attributes[:password] = params['password'] unless params['password'].empty?
   attributes[:password_confirmation] = params['password_confirmation'] unless params['password_confirmation'].empty?
 
-  if @person.update(attributes)
-    redirect '/'
-  end
+  @person.update(attributes)
 
-  haml :settings
+  redirect '/'
 end
 
 error do redirect '/' end
