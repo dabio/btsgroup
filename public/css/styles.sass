@@ -1,8 +1,13 @@
 $body_background-color: #21272b
 $body_color: #ececec
 $a_color: #a58c62
+$font-size: 14px
+$font-size_small: 11px
 
 @import "reset.css"
+
+//body
+  -webkit-text-stroke: 1px transparent
 
 a
   color: $a_color
@@ -15,13 +20,16 @@ body
   background-color: $body_background-color
   color: $body_color
   font: 14px/25px "Trebuchet MS", Verdana, Arial, sans-serif
+  position: relative
+  padding-top: 100px
 
 button
   background: url(/img/button_bg.gif) repeat-x
   border: 1px solid #1d1d1f
   color: #ececec
+  cursor: pointer
   display: block
-  font-size: 11px
+  font-size: $font-size_small
   height: 25px
   margin-top: 3px
   text-shadow: #000 1px 1px 1px
@@ -41,6 +49,7 @@ input, textarea
 
 input
   line-height: 18px
+  width: 180px
 
 p
   margin-bottom: 25px
@@ -57,14 +66,40 @@ textarea
   width: 860px
 
 header
-  height: 125px
-  a
-    display: block
-    float: left
-    height: 42px
-    margin-top: 47px
-    margin-left: 32px
-    width: 265
+  //background: #fee
+  height: 100px
+  position: absolute
+  top: -100px
+  width: 860px
+  h1
+    a
+      background: url('/img/header.gif') 31px 47px no-repeat
+      display: block
+      height: 100px
+      text-indent: -999px
+      width: 296px
+    a:hover, a:focus
+      outline: none
+  nav
+    ul
+      font-size: $font-size_small
+      left: 560px
+      position: absolute
+      text-shadow: #000 1px 1px 1px
+      top: 0
+      width: 300px
+    li
+      display: inline
+    a
+      color: #778796
+      margin-right: 10px
+    #settings_button
+      background: url(/img/arrow_down.gif) no-repeat 100% 4px
+      cursor: pointer
+      padding-right: 11px
+
+#main
+  position: relative
 
 footer
   clear: both
@@ -73,7 +108,6 @@ footer
   //text-shadow: #000 1px 1px 1px
 
 #messages
-  float: left
   overflow: auto
   width: 540px
   li
@@ -114,8 +148,9 @@ footer
     margin-left: 301px
 
 #visits
-  margin-left: 560px
-  margin-top: -25px
+  position: absolute
+  left: 560px
+  top: 0
 
 #pagination
   clear: both
@@ -133,15 +168,6 @@ footer
   position: absolute
   text-shadow: #000 1px 1px 1px
   top: 0
-  li
-    display: inline
-  a
-    color: #778796
-    margin-right: 10px
-  #settings_button
-    background: url(/img/arrow_down.gif) no-repeat 100% 4px
-    cursor: pointer
-    padding-right: 11px
 
 #settings label, #login label
   display: block
@@ -156,11 +182,14 @@ footer
   padding: 25px 0 12px 10px
   position: absolute
   top: 25px
-  width: 260px
+  width: 350px
+  z-index: 100
   button
     margin-left: 94px
   label
     width: 90px
+  h2
+    font-size: 11px
 
 #login
   margin: 100px auto
