@@ -10,12 +10,10 @@ configure do
   use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
 
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
-
+  set :domain, 'cloud.btsgroup.de'
   set :haml, {:format => :html5, :ugly => true}
 
   enable :sessions
-
-  set :domain, 'cloud.btsgroup.de'
 end
 
 
@@ -38,7 +36,6 @@ layout 'layout'
 ### Public
 
 get '/'  do
-  #current_page().to_s
   @count, @messages = Message.paginated(:page => current_page,
     :per_page => 20, :order => [:created_at.desc])
 
