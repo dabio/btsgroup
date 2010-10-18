@@ -19,12 +19,12 @@
           %form{:action => '/settings', :method => 'post'}
             %fieldset
               %label{:for => 'email'} E-Mail
-              %input{:name => 'email', :type => 'email', :value => current_person.email}
+              %input#email{:name => 'email', :type => 'email', :value => current_person.email}
               %h2 Passwort ändern. Nur ausfüllen, wenn Passwort geändert werden soll.
               %label{:for => 'password'} Passwort
-              %input{:name => 'password', :type => 'password'}
+              %input#passwort{:name => 'password', :type => 'password'}
               %label{:for => 'password_confirmation'} Wiederholung
-              %input{:name => 'password_confirmation', :type => 'password'}
+              %input#password_confirmation{:name => 'password_confirmation', :type => 'password'}
               %button{:type => "submit"} Speichern
       %section#main
         = yield
