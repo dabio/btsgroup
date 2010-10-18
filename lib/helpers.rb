@@ -5,7 +5,8 @@ helpers do
   # Taken from rails
   AUTO_LINK_RE = %r{(?:([\w+.:-]+:)//|www\.)[^\s<]+}x
   BRACKETS = {']' => '[', ')' => '(', '}' => '{'}
-  def auto_link(text, html_options={})
+  def auto_link(text, limit=nil)
+    trim = lambda {|s, l| l != nil and (s.length > limit and "#{s[0,l-1]}…") or s}
     text.gsub(AUTO_LINK_RE) do
       scheme, href = $1, $&
       punctuation = []
@@ -21,7 +22,7 @@ helpers do
       link_text = block_given? ? yield(href) : href
       href = 'http://' + href unless scheme
 
-      "<a href=\"#{href}\">#{h(link_text)}</a>" + punctuation.reverse.join('')
+      "<a href=\"#{href}\">#{h(trim[link_text, limit])}</a>" + punctuation.reverse.join('')
     end
   end
 
@@ -32,9 +33,7 @@ helpers do
   @@current_person = nil
 
   def current_person
-    unless @@current_person
-      @@current_person = Person.first(:id => session[:person_id])
-    end
+    @@current_person = Person.first(:id => session[:person_id]) unless @@current_person
     @@current_person
   end
 
