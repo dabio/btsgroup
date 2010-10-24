@@ -8,6 +8,9 @@ _gaq.push(['_trackPageview']);
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 
+/iPhone/i.test(navigator.userAgent) && !pageYOffset && !location.hash && setTimeout(function(){window.scrollTo(0, 1);}, 100);
+
+
 $(function() {
     $('#settings_button').click(
         function () {
