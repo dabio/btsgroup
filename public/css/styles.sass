@@ -24,7 +24,7 @@ body
   padding-top: 100px
 
 button
-  background: url(/img/button_bg.gif) repeat-x
+  background: url(/img/button_bg.gif) 0 0 repeat-x
   border: 1px solid #1d1d1f
   color: #ececec
   cursor: pointer
@@ -34,6 +34,8 @@ button
   margin-top: 3px
   text-shadow: #000 1px 1px 1px
   width: 80px
+button:hover
+  background-position: 0 -23px
 
 h2
   color: #778796
@@ -73,7 +75,7 @@ header
   width: 860px
   h1
     a
-      background: url('/img/header.gif') 31px 47px no-repeat
+      background: url(/img/header.gif) 31px 47px no-repeat
       display: block
       height: 100px
       text-indent: -999px
