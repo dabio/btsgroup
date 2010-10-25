@@ -73,6 +73,7 @@ end
 
 get '/logout' do
   session.clear
+  flash[:notice] = 'Erfolgreich abgemeldet'
   redirect '/login'
 end
 
