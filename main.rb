@@ -1,5 +1,5 @@
 require 'rubygems'
-%w(sinatra haml).each {|gem| require gem}
+%w(sinatra haml sinatra/flash).each {|gem| require gem}
 
 Dir.glob('lib/*.rb') do |lib|
   require lib
@@ -47,7 +47,9 @@ end
 post '/' do
   @message = Message.new(params)
   @message.person = current_person
-  @message.save
+  if @message.save
+    flash[:notice] = 'Nachricht gesichert'
+  end
 
   redirect '/'
 end
@@ -65,6 +67,7 @@ post '/login' do
     logged_in_as @person
     redirect session[:redirect] ? session[:redirect] : '/'
   end
+  flash[:error] = 'Unbekannte E-Mail oder falsches Passwort eingegeben.'
   redirect '/login'
 end
 
@@ -81,7 +84,9 @@ post '/settings' do
   attributes[:password] = params['password'] unless params['password'].empty?
   attributes[:password_confirmation] = params['password_confirmation'] unless params['password_confirmation'].empty?
 
-  @person.update(attributes)
+  if @person.update(attributes)
+    flash[:notice] = 'Einstellungen gespeichert'
+  end
 
   redirect '/'
 end

@@ -7,3 +7,4 @@ dm-types
 dm-validations
 haml
 sinatra
+sinatra-flash

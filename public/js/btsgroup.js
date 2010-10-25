@@ -17,6 +17,11 @@ $(function() {
             $('#settings').animate({opacity: "toggle"}, 100);
         }
     );
+    setTimeout(
+        function() {
+            $('#flash').fadeTo(false, 0).slideUp();
+        }
+    , 3000);
 });
 
 // html5shiv MIT @rem remysharp.com/html5-enabling-script
