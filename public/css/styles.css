@@ -1,1 +1,195 @@
-@import url(reset.css);a{color:#a58c62;text-decoration:none}a:hover{text-decoration:underline}body{background-color:#21272b;color:#ececec;font:14px/25px "Trebuchet MS",Verdana,Arial,sans-serif;position:relative;padding-top:100px}button{background:url(/img/button_bg.gif) 0 0 repeat-x;border:1px solid #1d1d1f;color:#ececec;cursor:pointer;display:block;font-size:11px;height:25px;margin-top:3px;padding:0 10px;text-shadow:#000 1px 1px 1px;white-space:nowrap}button:hover{background-position:0 -23px}h2{color:#778796;font-size:18px;text-shadow:#000 1px 1px 1px}html{background-color:#21272b}input,textarea{border:1px solid #bbb;border-top:1px solid #aeaeae}input{line-height:18px;width:180px}p{margin-bottom:25px}textarea{height:75px;line-height:25px;width:378px}#content{margin:0 auto;position:relative;width:860px}header{height:100px;position:absolute;top:-100px;width:860px}header h1 a{background:url(/img/header.gif) 31px 47px no-repeat;display:block;height:100px;text-indent:-999px;width:296px}header h1 a:hover,header h1 a:focus{outline:none}header nav ul{font-size:11px;left:560px;position:absolute;text-shadow:#000 1px 1px 1px;top:0;width:300px}header nav li{display:inline}header nav a{color:#778796;margin-right:10px}header nav #settings_button{background:url(/img/arrow_down.gif) no-repeat 100% 4px;cursor:pointer;padding-right:11px}#main{position:relative}footer{clear:both;font-size:10px;padding:25px 80px}#messages{overflow:auto;width:540px}#messages li{margin-bottom:25px;overflow:auto}#messages li time{color:#778796;display:block;font-size:10px;line-height:14px;margin:0 80px;padding-top:11px;text-shadow:#000 1px 1px 1px}#messages li .message{margin-left:80px;margin-right:80px}#messages li aside{float:left;margin-left:20px;overflow:auto}#messages li aside img{border:1px solid #ececec;display:block;float:left}#messages li aside.right{float:right;margin-left:0;margin-right:20px}#messages li.first{margin-bottom:0}#messages li.first aside.right{margin-top:25px}#message{padding-bottom:12px;margin:25px 80px 0 80px}#message button{margin-left:301px}#flash{margin:0 80px;padding-top:25px;overflow:auto;width:540px}#visits{position:absolute;left:560px;top:0}#pagination{clear:both;color:#363f47;font-size:10px;padding:0 80px}#pagination a{color:#778796}#pagination em{color:#778796}#user{font-size:10px;left:560px;position:absolute;text-shadow:#000 1px 1px 1px;top:0}#settings label,#login label{display:block;float:left;margin-right:5px;text-align:right}#settings{background:#363f47;display:none;left:540px;padding:25px 0 12px 10px;position:absolute;top:25px;width:350px;z-index:100}#settings button{margin-left:94px}#settings label{width:90px}#settings h2{font-size:11px}#login{margin:50px auto;width:270px}#login button{margin-left:79px}#login label{width:75px}
+@import url(reset.css);
+a {
+  color: #a58c62;
+  text-decoration: none; }
+
+a:hover {
+  text-decoration: underline; }
+
+body {
+  background-color: #21272b;
+  color: #ececec;
+  font: 14px/25px "Trebuchet MS",Verdana,Arial,sans-serif;
+  position: relative;
+  padding-top: 100px; }
+
+button {
+  background: url(/img/button_bg.gif) 0 0 repeat-x;
+  border: 1px solid #1d1d1f;
+  color: #ececec;
+  cursor: pointer;
+  display: block;
+  font-size: 11px;
+  height: 25px;
+  margin-top: 3px;
+  padding: 0 10px;
+  text-shadow: #000 1px 1px 1px;
+  white-space: nowrap; }
+
+button:hover {
+  background-position: 0 -23px; }
+
+h2 {
+  color: #778796;
+  font-size: 18px;
+  text-shadow: #000 1px 1px 1px; }
+
+html {
+  background-color: #21272b; }
+
+input, textarea {
+  border: 1px solid #bbb;
+  border-top: 1px solid #aeaeae; }
+
+input {
+  line-height: 18px;
+  width: 180px; }
+
+p {
+  margin-bottom: 25px; }
+
+textarea {
+  height: 75px;
+  line-height: 25px;
+  width: 378px; }
+
+#content {
+  margin: 0 auto;
+  position: relative;
+  width: 860px; }
+
+header {
+  height: 100px;
+  position: absolute;
+  top: -100px;
+  width: 860px; }
+header h1 a {
+  background: url(/img/header.gif) 31px 47px no-repeat;
+  display: block;
+  height: 100px;
+  text-indent: -999px;
+  width: 296px; }
+header h1 a:hover, header h1 a:focus {
+  outline: none; }
+header nav ul {
+  font-size: 11px;
+  left: 560px;
+  position: absolute;
+  text-shadow: #000 1px 1px 1px;
+  top: 0;
+  width: 300px; }
+header nav li {
+  display: inline; }
+header nav a {
+  color: #778796;
+  margin-right: 10px; }
+header nav #settings_button {
+  background: url(/img/arrow_down.gif) no-repeat 100% 4px;
+  cursor: pointer;
+  padding-right: 11px; }
+
+#main {
+  position: relative; }
+
+footer {
+  clear: both;
+  font-size: 10px;
+  padding: 25px 80px; }
+
+#messages {
+  overflow: auto;
+  width: 540px; }
+#messages li {
+  margin-bottom: 25px;
+  overflow: auto; }
+#messages li time {
+  color: #778796;
+  display: block;
+  font-size: 10px;
+  line-height: 14px;
+  margin: 0 80px;
+  padding-top: 11px;
+  text-shadow: #000 1px 1px 1px; }
+#messages li .message {
+  margin-left: 80px;
+  margin-right: 80px; }
+#messages li aside {
+  float: left;
+  margin-left: 20px;
+  overflow: auto; }
+#messages li aside img {
+  border: 1px solid #ececec;
+  display: block;
+  float: left; }
+#messages li aside.right {
+  float: right;
+  margin-left: 0;
+  margin-right: 20px; }
+#messages li.first {
+  margin-bottom: 0; }
+#messages li.first aside.right {
+  margin-top: 25px; }
+
+#message {
+  padding-bottom: 12px;
+  margin: 25px 80px 0 80px; }
+#message button {
+  margin-left: 301px; }
+
+#flash {
+  margin: 0 80px;
+  padding-top: 25px;
+  overflow: auto;
+  width: 540px; }
+
+#visits {
+  position: absolute;
+  left: 560px;
+  top: 0; }
+
+#pagination {
+  clear: both;
+  color: #363f47;
+  font-size: 10px;
+  padding: 0 80px; }
+#pagination a {
+  color: #778796; }
+#pagination em {
+  color: #778796; }
+
+#user {
+  font-size: 10px;
+  left: 560px;
+  position: absolute;
+  text-shadow: #000 1px 1px 1px;
+  top: 0; }
+
+#settings label, #login label {
+  display: block;
+  float: left;
+  margin-right: 5px;
+  text-align: right; }
+
+#settings {
+  background: #363f47;
+  display: none;
+  left: 540px;
+  padding: 25px 0 12px 10px;
+  position: absolute;
+  top: 25px;
+  width: 350px;
+  z-index: 100; }
+#settings button {
+  margin-left: 94px; }
+#settings label {
+  width: 90px; }
+#settings h2 {
+  font-size: 11px; }
+
+#login {
+  margin: 50px auto;
+  width: 270px; }
+#login button {
+  margin-left: 79px; }
+#login label {
+  width: 75px; }
