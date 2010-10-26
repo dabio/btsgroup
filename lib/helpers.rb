@@ -1,3 +1,5 @@
+# coding:utf-8
+
 helpers do
   include Rack::Utils
   alias :h :escape_html
@@ -31,7 +33,6 @@ helpers do
   end
 
   @@current_person = nil
-
   def current_person
     @@current_person = Person.first(:id => session[:person_id]) unless @@current_person
     @@current_person

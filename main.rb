@@ -1,13 +1,14 @@
-require 'rubygems'
+# coding:utf-8
+
 %w(sinatra haml sinatra/flash).each {|gem| require gem}
 
-Dir.glob('lib/*.rb') do |lib|
+Dir.glob('./lib/*.rb') do |lib|
   require lib
 end
 
 
 configure do
-  use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
+  #use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
 
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
   set :domain, 'cloud.btsgroup.de'
