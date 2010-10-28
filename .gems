@@ -5,6 +5,7 @@ dm-postgres-adapter
 dm-timestamps
 dm-types
 dm-validations
+exceptional
 haml
 sinatra
 sinatra-flash
