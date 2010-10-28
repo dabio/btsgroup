@@ -93,6 +93,11 @@ post '/settings' do
   redirect '/'
 end
 
+error do
+  Exceptional.handle_sinatra(
+    request.env['sinatra_error'], request.env['REQUEST_URI'], request, params)
+end
+
 #error do redirect '/' end
 
 #get '/setup' do
