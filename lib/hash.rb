@@ -1,5 +1,3 @@
-# coding:utf-8
-
 class Hash
   def reverse_merge(other_hash)
     other_hash.merge(self)
