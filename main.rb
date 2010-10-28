@@ -15,7 +15,7 @@ configure do
 
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
   set :domain, 'cloud.btsgroup.de'
-  set :haml, {:format => :html5, :ugly => true}
+  set :haml, {:format => :html5, :ugly => true, :encoding => 'UTF-8'}
 
   #enable :sessions
 end
