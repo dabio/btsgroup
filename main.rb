@@ -1,6 +1,6 @@
 # coding:utf-8
 
-%w(sinatra haml sinatra/flash exceptional).each {|gem| require gem}
+%w(sinatra haml sinatra/flash).each {|gem| require gem}
 
 Dir.glob('./lib/*.rb') do |lib|
   require lib
@@ -9,9 +9,9 @@ end
 
 configure do
   use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
-  use Rack::Exceptional, ENV['EXCEPTIONAL_API_KEY'] if ENV['RACK_ENV'] == 'production'
+  #use Rack::Exceptional, ENV['EXCEPTIONAL_API_KEY'] if ENV['RACK_ENV'] == 'production'
 
-  set :raise_errors, true
+  #set :raise_errors, true
 
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
   set :domain, 'cloud.btsgroup.de'
