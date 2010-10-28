@@ -17,7 +17,7 @@
           - else
             = "#{message.person.first_name}, am #{message.created_at.strftime('%a, %d. %b. %Y %H:%M')} Uhr"
         %aside{:class => message.person == current_person && "right"}
-          = "<img src=\"/users/#{message.person.first_name}.png\" alt=\"#{message.person.first_name}\" class=\"user_image\"/>"
+          = "<img src=\"/users/#{message.person.first_name}.png\" alt=\"#{message.person.first_name}\" width=\"48\" height=\"48\" class=\"user_image\"/>"
         .message[message]
           = simple_format(auto_link(message.text.strip, 50))
 = paginator('/')
