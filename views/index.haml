@@ -4,7 +4,7 @@
       %aside.right
         = "<img src=\"/users/#{current_person.first_name}.png\" alt=\"#{current_person.first_name}\"/>"
       %form#message{:action => "/", :method => "post"}
-        %fieldset
+        %p
           %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
           %button{:type => "submit"} Up-Chicken!
 

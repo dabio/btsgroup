@@ -97,7 +97,7 @@ footer {
   padding: 25px 80px; }
 
 #messages {
-  overflow: auto;
+  position: relative;
   width: 540px; }
   #messages li {
     margin-bottom: 25px;
@@ -126,7 +126,8 @@ footer {
       margin-left: 0;
       margin-right: 20px; }
   #messages li.first {
-    margin-bottom: 0; }
+    margin-bottom: 0;
+    overflow: hidden; }
     #messages li.first aside.right {
       margin-top: 25px; }
 
@@ -134,7 +135,7 @@ footer {
   padding-bottom: 12px;
   margin: 25px 80px 0 80px; }
   #message button {
-    margin-left: 301px; }
+    float: right; }
 
 #flash {
   margin: 0 80px;
