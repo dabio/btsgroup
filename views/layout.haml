@@ -5,9 +5,8 @@
     %title= options.title
     %link{:href => "/css/styles.css", :rel => "stylesheet"}
     %meta{:name => "viewport", :content => "initial-scale=0.6, maximum-scale=2"}
-    /[if IE]
-      %script
-        (function(){var e="abbr,article,aside,audio,canvas,datalist,details,dialog,figure,footer,header,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i=i-1){document.createElement(e[i])}})()
+    %script{:src => 'https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js'}
+    %script{:src => "/js/btsgroup.js"}
   %body
     %section#content
       %header
@@ -36,5 +35,3 @@
       %footer
         %a{ :href => "http://github.com/dabio/btsgroup",
             :title => "source is here"} grab the source
-    %script{:src => '/js/jquery.min.js'}
-    %script{:src => "/js/btsgroup.js"}
