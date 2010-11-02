@@ -17,7 +17,7 @@ configure do
   #set :raise_errors, true
 
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
-  set :domain, 'cloud.btsgroup.de'
+  set :domain, 'btsgroup.de'
   set :haml, {:format => :html5, :ugly => true}
 
   #enable :sessions
