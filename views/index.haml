@@ -2,7 +2,7 @@
   - if @page == 1
     %li.first
       %aside.right
-        = "<img src=\"/users/#{current_person.first_name}.png\" alt=\"#{current_person.first_name}\"/>"
+        = "<img src=\"/users/#{current_person.first_name}.png\" alt=\"#{current_person.first_name}\" width=\"48\" height=\"48\"/>"
       %form#message{:action => "/", :method => "post"}
         %p
           %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
