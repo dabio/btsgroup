@@ -10,6 +10,9 @@ if (window.attachEvent && (function(){var elem=doc.createElement("div");elem.inn
 $('#settings_button').live('click',function(){$('#settings').animate({opacity:'toggle'},100)});
 // hide #flash information
 setTimeout(function(){$('#flash').fadeTo(false,0).slideUp();},3000);
+// disable buttons if once clicked
+$('form').live('submit', function(){$('button').attr('disabled', 'disabled')});
+
 
 // Google Analytics
 var _gaq = _gaq || [];
