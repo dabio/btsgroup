@@ -98,7 +98,6 @@ class Event
         link.save
       end
     end
-    throw :halt
   end
 
   before :destroy do |event|
