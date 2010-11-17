@@ -24,7 +24,7 @@
 
 - if @page == 1
   %div#aside
-    - if @events
+    - if @events.count > 0
       %section#events
         %h2 Geburtstage
         %ul
