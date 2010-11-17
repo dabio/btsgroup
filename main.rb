@@ -1,4 +1,4 @@
-%w(sinatra haml sinatra/flash).each {|gem| require gem}
+%w(haml sinatra sinatra/flash sinatra/r18n).each {|gem| require gem}
 
 Dir.glob('./lib/*.rb') do |lib|
   require lib
@@ -19,6 +19,7 @@ configure do
   set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
   set :domain, 'btsgroup.de'
   set :haml, {:format => :html5, :ugly => true}
+  set :default_locale, 'de'
 
   #enable :sessions
 end
@@ -47,6 +48,9 @@ get '/'  do
     :per_page => 20, :order => [:created_at.desc])
 
   @visits = Visit.all(:order => [:updated_at.desc])
+  t = Time.now
+  @events = EventLink.all(:time.gte => Date.new(t.year, t.month, t.day),
+                          :time.lt => Date.new(t.year, t.month+1, t.day))
 
   haml :index
 end
@@ -105,3 +109,4 @@ end
 #  require 'dm-migrations'
 #  DataMapper.auto_migrate!
 #end
+

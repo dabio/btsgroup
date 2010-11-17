@@ -8,3 +8,4 @@ dm-validations
 haml
 sinatra
 sinatra-flash
+sinatra-r18n

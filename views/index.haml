@@ -23,10 +23,20 @@
 = paginator('/')
 
 - if @page == 1
-  %section#visits
-    %h2 Besucher
-    %ul
-      - @visits.each do |visit|
-        %li
-          = "#{visit.person.first_name} (vor #{timesince(visit.updated_at)})"
-  
+  %div#aside
+    - if @events
+      %section#events
+        %h2 Geburtstage
+        %ul
+          - @events.each do |l|
+            %li
+              = l.event.title
+              %time{:datetime => "#{l.time}"}
+                = l l.time, :human
+    %section#visits
+      %h2 Besucher
+      %ul
+        - @visits.each do |visit|
+          %li
+            = "#{visit.person.first_name} (vor #{timesince(visit.updated_at)})"
+

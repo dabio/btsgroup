@@ -143,10 +143,17 @@ footer {
   overflow: auto;
   width: 540px; }
 
-#visits {
+div#aside {
   position: absolute;
   left: 560px;
   top: 0; }
+  div#aside ul {
+    margin-bottom: 25px; }
+  div#aside li {
+    font-size: 11px;
+    line-height: 18.75px; }
+    div#aside li time {
+      color: #778796; }
 
 #pagination {
   clear: both;

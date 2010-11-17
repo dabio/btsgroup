@@ -78,3 +78,41 @@ class Message
   end
 end
 
+
+class Event
+  include DataMapper::Resource
+
+  property :id,     Serial
+  property :time,   DateTime,   :required => true
+  property :title,  String,     :required => true
+  property :recurrence, Enum[:once, :yearly], :default => :once
+  timestamps :at
+
+  has n, :event_links
+
+  after :save do |event|
+    if event.recurrence == :yearly
+      (event.time.year..(Time.now.year+10)).each do |year|
+        l = DateTime.new(year, event.time.month, event.time.day)
+        link = event.event_links.new(:time => l)
+        link.save
+      end
+    end
+    throw :halt
+  end
+
+  before :destroy do |event|
+    true
+  end
+end
+
+
+class EventLink
+  include DataMapper::Resource
+
+  property :id,     Serial
+  property :time,   DateTime,   :required => true
+
+  belongs_to :event
+end
+
