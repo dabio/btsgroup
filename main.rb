@@ -48,9 +48,7 @@ get '/'  do
     :per_page => 20, :order => [:created_at.desc])
 
   @visits = Visit.all(:order => [:updated_at.desc])
-  t = Time.now
-  @events = EventLink.all(:time.gte => Date.new(t.year, t.month, t.day),
-                          :time.lt => Date.new(t.year, t.month+1, t.day))
+  @events = EventLink.next
 
   haml :index
 end

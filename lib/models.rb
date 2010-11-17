@@ -92,16 +92,13 @@ class Event
 
   after :save do |event|
     if event.recurrence == :yearly
+      # build all event_links for passed events and for the next 10 years
       (event.time.year..(Time.now.year+10)).each do |year|
         l = DateTime.new(year, event.time.month, event.time.day)
         link = event.event_links.new(:time => l)
         link.save
       end
     end
-  end
-
-  before :destroy do |event|
-    true
   end
 end
 
@@ -113,5 +110,10 @@ class EventLink
   property :time,   DateTime,   :required => true
 
   belongs_to :event
+
+  def self.next(t=Time.now)
+    all(:time.gte => Date.new(t.year, t.month, t.day),
+        :time.lt => Date.new(t.year, t.month+1, t.day))
+  end
 end
 
