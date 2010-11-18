@@ -16,7 +16,7 @@ use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
 configure do
   #set :raise_errors, true
 
-  set :title, 'btsgroup - "Kann mir jemand bitte das Wasser reichen?"'
+  set :title, 'do not fuck with us'
   set :domain, 'btsgroup.de'
   set :haml, {:format => :html5, :ugly => true}
   set :default_locale, 'de'
