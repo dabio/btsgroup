@@ -83,7 +83,7 @@ class Event
   include DataMapper::Resource
 
   property :id,     Serial
-  property :time,   DateTime,   :required => true
+  property :time,   Date,       :required => true
   property :title,  String,     :required => true
   property :recurrence, Enum[:once, :yearly], :default => :once
   timestamps :at
@@ -94,7 +94,7 @@ class Event
     if event.recurrence == :yearly
       # build all event_links for passed events and for the next 10 years
       (event.time.year..(Time.now.year+10)).each do |year|
-        l = DateTime.new(year, event.time.month, event.time.day)
+        l = Date.new(year, event.time.month, event.time.day)
         link = event.event_links.new(:time => l)
         link.save
       end
@@ -107,7 +107,7 @@ class EventLink
   include DataMapper::Resource
 
   property :id,     Serial
-  property :time,   DateTime,   :required => true
+  property :time,   Date,       :required => true
 
   belongs_to :event
 
