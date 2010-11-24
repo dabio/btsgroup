@@ -113,7 +113,8 @@ class EventLink
 
   def self.next(t=Time.now)
     all(:time.gte => Date.new(t.year, t.month, t.day),
-        :time.lt => Date.new(t.year, t.month+1, t.day))
+        :time.lt => Date.new(t.year, t.month+1, t.day),
+        :order => [:time])
   end
 end
 

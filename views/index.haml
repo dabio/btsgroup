@@ -32,11 +32,11 @@
             %li
               = l.event.title
               %time{:datetime => "#{l.time}"}
-                = l l.time, :full
+                = l l.time, :human
     %section#visits
       %h2 Besucher
       %ul
         - @visits.each do |visit|
           %li
-            = "#{visit.person.first_name} (vor #{timesince(visit.updated_at)})"
+            = "#{visit.person.first_name} (vor #{timesince visit.updated_at})"
 
