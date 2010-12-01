@@ -111,9 +111,9 @@ class EventLink
 
   belongs_to :event
 
-  def self.next(t=Time.now)
-    all(:time.gte => Date.new(t.year, t.month, t.day),
-        :time.lt => Date.new(t.year, t.month+1, t.day),
+  def self.next(t=Date.today)
+    all(:time.gte => t,
+        :time.lt => t >> 1,
         :order => [:time])
   end
 end
