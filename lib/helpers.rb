@@ -39,12 +39,6 @@ helpers do
     @current_person
   end
 
-  def log_visit
-    visit = Visit.first_or_create(:person => current_person)
-    visit.updated_at = Time.now
-    visit.save
-  end
-
   def logged_in_as(person)
     session[:person_id] = person.id
   end

@@ -24,6 +24,10 @@ configure do
   #enable :sessions
 end
 
+configure :production do
+  require 'newrelic_rpm'
+end
+
 
 before do
   # redirect to domain in settings
@@ -35,7 +39,7 @@ before do
 end
 
 after do
-  log_visit unless ['/login', '/logout', '/setup'].include?(request.path_info)
+  Visit.first_or_create(current_person).update(:updated_at => Time.now) if logged_in?
 end
 
 
