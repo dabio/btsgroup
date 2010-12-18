@@ -1,0 +1,365 @@
+$body_background-color: #21272b
+$body_color: #ececec
+$a_color: #a58c62
+$font-size: 14px
+$font-size_small: 11px
+
+html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td
+  margin: 0
+  padding: 0
+  border: 0
+  outline: 0
+  font-size: 100%
+  vertical-align: baseline
+  background: transparent
+
+blockquote, q
+  quotes: none
+blockquote:before, blockquote:after,
+q:before, q:after
+  content: ''
+  content: none
+a
+  margin: 0
+  padding: 0
+  font-size: 100%
+  vertical-align: baseline
+  background: transparent
+ins
+  background-color: #ff9
+  color: #000
+  text-decoration: none
+del
+  text-decoration: line-through
+abbr[title], dfn[title]
+  border-bottom: 1px dotted
+  cursor: help
+table
+  border-collapse: collapse
+  border-spacing: 0
+hr
+  display: block
+  height: 1px
+  border: 0
+  border-top: 1px solid #ccc
+  margin: 1em 0
+  padding: 0
+input, select
+  vertical-align: middle
+
+body
+  font: 13px/1.231 sans-serif
+  *font-size: small
+select, input, textarea, button
+  font: 99% sans-serif
+pre, code, kbd, samp
+  font-family: monospace, sans-serif
+
+body, select, input, textarea
+  color: #444
+h1,h2,h3,h4,h5,h6
+  font-weight: bold
+html
+  overflow-y: scroll
+
+ul, ol
+  list-style: none
+ol
+  list-style-type: decimal
+
+small
+  font-size: 85%
+strong, th
+  font-weight: bold
+td, td img
+  vertical-align: top
+sub
+  vertical-align: sub
+  font-size: smaller
+sup
+  vertical-align: super
+  font-size: smaller
+pre
+  padding: 15px
+  white-space: pre
+  white-space: pre-wrap
+  white-space: pre-line
+  word-wrap: break-word
+textarea
+  overflow: auto
+.ie6 legend, .ie7 legend
+  margin-left: -7px
+input[type="radio"]
+  vertical-align: text-bottom
+input[type="checkbox"]
+  vertical-align: bottom
+.ie7 input[type="checkbox"]
+  vertical-align: baseline
+.ie6 input
+  vertical-align: text-bottom
+label, input[type=button], input[type=submit], button
+  cursor: pointer
+button, input, select, textarea
+  margin: 0
+.no-boxshadow input:invalid,
+.no-boxshadow textarea:invalid
+  background-color: #f0dddd
+
+::-moz-selection
+  background: #fff
+  color: #000
+  text-shadow: none
+::selection
+  background: #fff
+  color: #000
+  text-shadow: none
+a:link
+  -webkit-tap-highlight-color: #fff
+
+button
+  width: auto
+  overflow: visible
+.ie7 img
+  -ms-interpolation-mode: bicubic
+
+.ir
+  display: block
+  text-indent: -999em
+  overflow: hidden
+  background-repeat: no-repeat
+  text-align: left
+  direction: ltr
+.hidden
+  display: none
+  visibility: hidden
+.visuallyhidden
+  position: absolute !important
+  clip: rect(1px 1px 1px 1px)
+  clip: rect(1px, 1px, 1px, 1px)
+.invisible
+  visibility: hidden
+.clearfix:before, .clearfix:after
+  content: "\0020"
+  display: block
+  height: 0
+  visibility: hidden
+.clearfix:after
+  clear: both
+.clearfix
+  zoom: 1
+
+//body
+  -webkit-text-stroke: 1px transparent
+
+a
+  color: $a_color
+  text-decoration: none
+
+a:hover
+  text-decoration: underline
+
+body
+  background-color: $body_background-color
+  color: $body_color
+  font: 14px/25px "Trebuchet MS", Verdana, Arial, sans-serif
+  position: relative
+  padding-top: 100px
+
+button
+  background: url(/img/button_bg.gif) 0 0 repeat-x
+  border: 1px solid #1d1d1f
+  color: #ececec
+  cursor: pointer
+  display: block
+  font-size: $font-size_small
+  height: 25px
+  margin-top: 3px
+  padding: 0 10px
+  text-shadow: #000 1px 1px 1px
+  white-space: nowrap
+button:hover
+  background-position: 0 -23px
+
+h2
+  color: #778796
+  font-size: 18px
+  text-shadow: #000 1px 1px 1px
+
+html
+  background-color: $body_background-color
+
+input, textarea
+  border: 1px solid #bbbbbb
+  border-top: 1px solid #aeaeae
+
+input
+  line-height: 18px
+  width: 180px
+
+p
+  margin-bottom: 25px
+
+textarea
+  height: 75px
+  line-height: 25px
+  width: 378px
+
+
+#content
+  margin: 0 auto
+  position: relative
+  width: 860px
+
+#header
+  //background: #fee
+  height: 100px
+  position: absolute
+  top: -100px
+  width: 860px
+  h1
+    a
+      background: url(/img/header.gif) 31px 47px no-repeat
+      display: block
+      height: 100px
+      text-indent: -999px
+      width: 296px
+    a:hover, a:focus
+      outline: none
+  #nav
+    ul
+      font-size: $font-size_small
+      left: 560px
+      position: absolute
+      text-shadow: #000 1px 1px 1px
+      top: 0
+      width: 300px
+    li
+      display: inline
+    a
+      color: #778796
+      margin-right: 10px
+    #settings_button
+      background: url(/img/arrow_down.gif) no-repeat 100% 4px
+      cursor: pointer
+      padding-right: 11px
+
+#main
+  position: relative
+
+#footer
+  clear: both
+  font-size: 10px
+  padding: 25px 80px
+  //text-shadow: #000 1px 1px 1px
+
+#messages
+  position: relative
+  width: 540px
+  li
+    margin-bottom: 25px
+    overflow: auto
+    .time
+      color: #778796
+      display: block
+      font-size: 10px
+      line-height: 14px
+      margin: 0 80px
+      padding-top: 11px
+      text-shadow: #000 1px 1px 1px
+    .message
+      margin-left: 80px
+      margin-right: 80px
+    .aside, .aside-right
+      float: left
+      margin-left: 20px
+      overflow: auto
+      img
+        border: 1px solid #ececec
+        display: block
+        float: left
+    .aside-right
+      float: right
+      margin-left: 0
+      margin-right: 20px
+  li.first
+    margin-bottom: 0
+    overflow: hidden
+    .aside-right
+      margin-top: 25px
+
+#message
+  padding-bottom: 12px
+  margin: 25px 80px 0 80px
+  button
+    //overflow: auto
+    float: right
+
+#flash
+  margin: 0 80px
+  padding-top: 25px
+  overflow: auto
+  width: 540px
+
+div#aside
+  position: absolute
+  left: 560px
+  top: 0
+  ul
+    margin-bottom: 25px
+  li
+    font-size: 11px
+    line-height: 18.75px
+    .time
+      color: #778796
+
+#pagination
+  clear: both
+  color: #363f47
+  font-size: 10px
+  padding: 0 80px
+  a
+    color: #778796
+  em
+    color: #778796
+
+#user
+  font-size: 10px
+  left: 560px
+  position: absolute
+  text-shadow: #000 1px 1px 1px
+  top: 0
+
+#settings label, #login label
+  display: block
+  float: left
+  margin-right: 5px
+  text-align: right
+
+#settings
+  background: #363f47
+  display: none
+  left: 540px
+  padding: 25px 0 12px 10px
+  position: absolute
+  top: 25px
+  width: 350px
+  z-index: 100
+  button
+    margin-left: 94px
+  label
+    width: 90px
+  h2
+    font-size: 11px
+
+#login
+  margin: 50px auto
+  width: 270px
+  button
+    margin-left: 79px
+  label
+    width: 75px
+
+

@@ -1,9 +1,9 @@
 %ul#messages
   - if @page == 1
     %li.first
-      %aside.right
+      .aside-right
         = "<img src=\"/users/#{current_person.first_name}.png\" alt=\"#{current_person.first_name}\" width=\"48\" height=\"48\"/>"
-      %form#message{:action => "/", :method => "post"}
+      %form#message{:action => "/new", :method => "post"}
         %p
           %textarea{:autofocus => "autofocus", :id => "text", :name => "text", :required => "required"}
           %button{:type => "submit"} Up-Chicken!
@@ -11,12 +11,12 @@
   - if @count > 0
     - @messages.each do |message|
       %li
-        %time{:datetime => "#{message.created_at}"}
+        .time
           - if (Time.now - message.created_at.to_time).to_i < 691200
             = "#{message.person.first_name}, vor #{timesince(message.created_at)}"
           - else
             = "#{message.person.first_name}, am #{l message.created_at, :human}"
-        %aside{:class => message.person == current_person && "right"}
+        .aside{:class => message.person == current_person && "aside-right"}
           = "<img src=\"/users/#{message.person.first_name}.png\" alt=\"#{message.person.first_name}\" width=\"48\" height=\"48\" class=\"user_image\"/>"
         .message[message]
           = simple_format(auto_link(message.text.strip, 50))
@@ -31,12 +31,10 @@
           - @events.each do |l|
             %li
               = l.event.title
-              %time{:datetime => "#{l.time}"}
-                = l l.time, :human
+              %span.time= l l.time, :human
     %section#visits
       %h2 Besucher
       %ul
         - @visits.each do |visit|
-          %li
-            = "#{visit.person.first_name} (vor #{timesince visit.updated_at})"
+          %li= "#{visit.person.first_name} (vor #{timesince visit.updated_at})"
 

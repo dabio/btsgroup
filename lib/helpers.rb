@@ -1,10 +1,14 @@
 # coding:utf-8
+#
+#   this is btsgroup.de, a sinatra application
+#   it is copyright (c) 2009-2011 danilo braband (danilo @ berlin,
+#   then a dot and a 'de')
+#
+
 
 helpers do
   include Rack::Utils
   alias :h :escape_html
-
-  attr_accessor :current_person
 
   # Taken from rails
   AUTO_LINK_RE = %r{(?:([\w+.:-]+:)//|www\.)[^\s<]+}x
@@ -27,35 +31,6 @@ helpers do
       href = 'http://' + href unless scheme
 
       "<a href=\"#{href}\">#{h(trim[link_text, limit])}</a>" + punctuation.reverse.join('')
-    end
-  end
-
-  def current_page
-    @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
-  end
-
-  def current_person
-    @current_person = Person.first(:id => session[:person_id]) unless @current_person
-    @current_person
-  end
-
-  def logged_in_as(person)
-    session[:person_id] = person.id
-  end
-
-  def logged_in?
-    !session[:person_id].nil?
-  end
-
-  def paginator(path)
-    haml :pagination, :escape_html => false, :layout => false,
-      :locals => {:path => path} if @count > 1
-  end
-
-  def require_login
-    unless logged_in?
-      session[:redirect] = request.fullpath
-      redirect '/login'
     end
   end
 
@@ -92,6 +67,37 @@ helpers do
     end
 
     ret.join(', ')
+  end
+
+  def authenticate(email, password)
+    return nil unless person = Person.first(:email => email)
+    person.password == password ? person : nil
+  end
+
+  def current_page
+    @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
+  end
+
+  def current_person
+    @current_person = Person.first(:id => session[:person_id]) unless @current_person
+    @current_person
+  end
+
+  def has_auth?
+    !session[:person_id].nil?
+  end
+
+  def needs_auth
+    raise not_found unless has_auth?
+  end
+
+  def needs_admin
+    raise not_found unless has_auth? && current_person.id == 1
+  end
+
+  def paginator(path)
+    haml :pagination, :escape_html => false, :layout => false,
+      :locals => {:path => path} if @count > 1
   end
 end
 

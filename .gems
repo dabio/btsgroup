@@ -9,4 +9,4 @@ haml
 sinatra
 sinatra-flash
 sinatra-r18n
-newrelic_rpm
+hassle
