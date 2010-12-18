@@ -19,7 +19,7 @@ end
 use Rack::Session::Cookie, :expire_after => 60 * 60 * 24 * 7
 
 configure do
-  DataMapper::Logger.new($stdout, :debug)
+  DataMapper::Logger.new($stdout, :debug) unless production?
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:local.db')
 
   set :title, 'all you can fuck'
