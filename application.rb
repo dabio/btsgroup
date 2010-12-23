@@ -22,7 +22,7 @@ configure do
   DataMapper::Logger.new($stdout, :debug) unless production?
   DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:local.db')
 
-  set :title, 'all you can fuck'
+  set :title, 'Frohes Fest!'
   set :domain, 'btsgroup.de'
   set :haml, {:format => :html5}
   set :default_locale, 'de'
