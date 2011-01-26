@@ -26,6 +26,8 @@ configure do
   set :domain, 'btsgroup.de'
   set :haml, {:format => :html5}
   set :default_locale, 'de'
+
+  set :cdn, 'http://btsgroup.commondatastorage.googleapis.com/'
 end
 
 

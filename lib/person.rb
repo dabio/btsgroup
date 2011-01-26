@@ -33,6 +33,10 @@ class Person
     person.password == password ? person : nil
   end
 
+  def avatar_url
+    "#{settings.cdn}people/#{first_name}.png"
+  end
+
   private
 
     def password_required?
