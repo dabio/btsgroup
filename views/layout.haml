@@ -32,17 +32,11 @@
         =styled_flash
         = yield
       #footer
-        %a{ :href => "http://github.com/dabio/btsgroup",
+        %a{:href => "https://github.com/dabio/btsgroup",
           :title => "source is here"} source
 
     %script{:src => '//code.jquery.com/jquery-1.4.4.min.js'}
-    %script{:src => "//www.google.com/js/gweb/analytics/autotrack.js"}
     %script
-      var tracker = new gweb.analytics.AutoTrack({profile: 'UA-67221-5'});
-      \/iPhone/i.test(navigator.userAgent) && !pageYOffset && !location.hash && setTimeout(function(){window.scrollTo(0, 1);}, 100);
-      $('#settings_button').live('click',function(){$('#settings').animate({opacity:'toggle'},100)});
-      setTimeout(function(){$('#flash').fadeTo(false,0).slideUp();},3000);
-      $('form').live('submit', function(){$('button').attr('disabled', 'disabled')});
-
-
+      var woo_settings={idle_timeout:"60000",domain:"btsgroup.de"};(function(){var a=document.createElement("script");a.src=document.location.protocol+"//static.woopra.com/js/woopra.js",a.type="text/javascript",a.async=!0;var b=document.getElementsByTagName("script")[0];b.parentNode.insertBefore(a,b)})();
+      \/iPhone/i.test(navigator.userAgent)&&!pageYOffset&&!location.hash&&setTimeout(function(){window.scrollTo(0,1)},100),$("#settings_button").live("click",function(){$("#settings").animate({opacity:"toggle"},100)}),setTimeout(function(){$("#flash").fadeTo(!1,0).slideUp()},3e3)
 
