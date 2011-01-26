@@ -24,7 +24,7 @@ configure do
 
   set :title, 'Be Cool!'
   set :domain, 'btsgroup.de'
-  set :haml, {:format => :html5}
+  set :haml, {:format => :html5, :ugly => true}
   set :default_locale, 'de'
 
   set :cdn, 'http://btsgroup.commondatastorage.googleapis.com/'
