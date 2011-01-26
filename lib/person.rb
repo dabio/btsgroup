@@ -28,11 +28,6 @@ class Person
   validates_confirmation_of :password, :if => :password_required?
   validates_uniqueness_of   :email
 
-  def self.authenticate(email, password)
-    return nil unless person = first(:email => email)
-    person.password == password ? person : nil
-  end
-
   def avatar_url
     "#{settings.cdn}people/#{first_name}.png"
   end
