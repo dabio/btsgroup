@@ -5,8 +5,6 @@ dm-postgres-adapter
 dm-timestamps
 dm-types
 dm-validations
-haml
-sinatra
-sinatra-flash
-sinatra-r18n
-hassle
+slim
+cuba
+r18n-core
