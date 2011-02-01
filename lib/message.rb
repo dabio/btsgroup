@@ -5,9 +5,9 @@
 #
 
 require 'dm-core'
-require 'dm-aggregates'
+#require 'dm-aggregates'
 require 'dm-timestamps'
-require 'dm-types'
+#require 'dm-types'
 require 'dm-validations'
 
 class Message

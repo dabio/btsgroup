@@ -4,9 +4,8 @@
 #   then a dot and a 'de')
 #
 
-Encoding.default_external = 'UTF-8'
+Encoding.default_external = Encoding::UTF_8
 
-require './application'
+require './app'
 
-use Hassle
-run Sinatra::Application
+run Cuba

@@ -4,8 +4,8 @@
     %meta{:charset=>"utf-8"}
     %meta{:name => "viewport", :content => "initial-scale=0.6, maximum-scale=2"}
 
-    %title= options.title
-    %link{:href => "/stylesheets/btsgroup.css", :rel => "stylesheet"}
+    %title Be Cool!
+    %link{:href => "/css/styles.css?#{coat 'css/styles.sass'}", :rel => "stylesheet"}
   %body
     #content
       #header
@@ -17,20 +17,15 @@
               %a#settings_button{:title => 'Einstellungen'} Einstellungen
             %li
               %a{:href => '/logout', :title => 'Abmelden'} Abmelden
-        #settings
-          %form{:action => '/settings', :method => 'post'}
-            %fieldset
-              %label{:for => 'email'} E-Mail
-              %input#email{:name => 'email', :type => 'email', :value => current_person.email}
-              %h2 Passwort ändern. Nur ausfüllen, wenn Passwort geändert werden soll.
-              %label{:for => 'password'} Passwort
-              %input#password{:name => 'password', :type => 'password'}
-              %label{:for => 'password_confirmation'} Wiederholung
-              %input#password_confirmation{:name => 'password_confirmation', :type => 'password'}
-              %button{:type => "submit"} Speichern
       #main
-        =styled_flash
-        = yield
+        /=styled_flash
+        %ul#messages
+          - @messages.each do |message|
+            %li
+              .time
+              .aside
+              .message[message]
+                = message.text
       #footer
         %a{:href => "https://github.com/dabio/btsgroup",
           :title => "source is here"} source
