@@ -1,103 +1,19 @@
 # coding:utf-8
 #
-#   this is btsgroup.de, a sinatra application
-#   it is copyright (c) 2009-2011 danilo braband (danilo @ berlin,
+#   this is btsgroup.de, a cuba application
+#   it is copyright (c) 2011 danilo braband (danilo @ berlin,
 #   then a dot and a 'de')
 #
 
-
-helpers do
-  include Rack::Utils
-  alias :h :escape_html
-
-  # Taken from rails
-  AUTO_LINK_RE = %r{(?:([\w+.:-]+:)//|www\.)[^\s<]+}x
-  BRACKETS = {']' => '[', ')' => '(', '}' => '{'}
-  def auto_link(text, limit=nil)
-    trim = lambda {|s, l| l != nil and (s.length > limit and "#{s[0,l-1]}…") or s}
-    text.gsub(AUTO_LINK_RE) do
-      scheme, href = $1, $&
-      punctuation = []
-      # don't include trailing punctiation character as part of the URL
-      while href.sub!(/[^\w\/-]$/, '')
-        punctuation.push $&
-        if opening = BRACKETS[punctuation.last] and href.scan(opening).size > href.scan(punctuation.last).size
-          href << punctuation.pop
-          break
-        end
-      end
-
-      link_text = block_given? ? yield(href) : href
-      href = 'http://' + href unless scheme
-
-      "<a href=\"#{href}\">#{h(trim[link_text, limit])}</a>" + punctuation.reverse.join('')
-    end
+module Kernel
+private
+  def coat(file)
+    require 'digest/md5'
+    Digest::MD5.file("views/#{file}").hexdigest[0..4]
   end
 
-  def simple_format(text)
-    text = '' if text.nil?
-    start_tag = '<p>'
-    text.gsub!(/\r\n?/, "\n")
-    text.gsub!(/\n\n+/, "</p>\n\n#{start_tag}")
-    text.gsub!(/([^\n]\n)(?=[^\n])/, '\1<br />')
-    text.insert(0, start_tag)
-    text.concat("</p>")
-  end
-
-  def timesince(d, now=Time.now)
-    delta = (now - d.to_time).to_i
-    return '0 Minuten' if delta <= 60
-
-    chunks = [
-      [60 * 60 * 24 * 356, 'Jahr',   'Jahre'],
-      [60 * 60 * 24 * 30,  'Monat',  'Monate'],
-      [60 * 60 * 24 * 7,   'Woche',  'Wochen'],
-      [60 * 60 * 24,       'Tag',    'Tage'],
-      [60 * 60,            'Stunde', 'Stunden'],
-      [60,                 'Minute', 'Minuten']
-    ]
-
-    ret = []
-    pluralize = lambda {|amount, singular, plural| amount > 1 ? plural : singular}
-
-    chunks.each do |seconds, singular, plural|
-      amount, delta = delta.divmod(seconds)
-      ret.push("#{amount} #{pluralize[amount, singular, plural]}") if amount > 0
-      break if ret.length > 1
-    end
-
-    ret.join(', ')
-  end
-
-  def authenticate(email, password)
-    return nil unless person = Person.first(:email => email)
-    person.password == password ? person : nil
-  end
-
-  def current_page
-    @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
-  end
-
-  def current_person
-    @current_person = Person.first(:id => session[:person_id]) unless @current_person
-    @current_person
-  end
-
-  def has_auth?
-    !session[:person_id].nil?
-  end
-
-  def needs_auth
-    raise not_found unless has_auth?
-  end
-
-  def needs_admin
-    raise not_found unless has_auth? && current_person.id == 1
-  end
-
-  def paginator(path)
-    haml :pagination, :escape_html => false, :layout => false,
-      :locals => {:path => path} if @count > 1
+  def root(*args)
+    File.join(File.expand_path(File.dirname(__FILE__)), *args)
   end
 end
 

@@ -14,27 +14,12 @@ end
 
 Cuba.use Rack::NoWWW
 
-DataMapper.setup :default, ENV['DATABASE_URL'] || 'sqlite3:local.db'
-DataMapper::Logger.new($stdout, :debug) unless ENV['RACK_END'] == 'production'
-
-module Kernel
-private
-  def coat(file)
-    require 'digest/md5'
-    Digest::MD5.file("views/#{file}").hexdigest[0..4]
-  end
-
-  def root(*args)
-    File.join(File.expand_path(File.dirname(__FILE__)), *args)
-  end
-end
-
 Cuba.define do
   extend Cuba::Prelude
 
   on get do
     on path('') do
-      @messages = Message.all(:order => [:created_at.desc], :limit => 20)
+      @messages = {}
       res.write slim 'messages'
     end
 
@@ -70,3 +55,4 @@ Cuba.define do
     end
   end
 end
+
