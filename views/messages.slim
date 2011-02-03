@@ -1,0 +1,30 @@
+! doctype html
+html
+  head
+    meta charset='utf-8'
+    meta name='viewport' content='initial-scale=0.6, maximum-scale=2'
+    title Be Cool!
+    link href="/css/styles.css?#{coat 'css/styles.sass'}" rel="stylesheet"
+
+  body
+    #content
+      #header
+        h1
+          a href='/' title='btsgroup' BTS group
+        #nav
+          ul
+            li
+              a#settings_button title='Einstellungen' Einstellungen
+            li
+              a href='/logout' title='Abmelden' Abmelden
+      #main
+        ul#messages
+          - @messages.each do |message|
+            li
+              .time
+              .aside
+              .message
+                = message.text
+      #footer
+        a href='https://github.com/dabio/btsgroup' title='source is here' source
+

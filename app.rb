@@ -5,13 +5,11 @@
 #
 
 require 'cuba'
+require 'slim'
 require 'rack/no-www'
 
-require './lib/message'
-
-
 Dir.glob('./lib/*.rb') do |lib|
-#  require lib
+  require lib
 end
 
 Cuba.use Rack::NoWWW
@@ -20,33 +18,46 @@ DataMapper.setup :default, ENV['DATABASE_URL'] || 'sqlite3:local.db'
 DataMapper::Logger.new($stdout, :debug) unless ENV['RACK_END'] == 'production'
 
 module Kernel
-  private
-    def coat(file)
-      require 'digest/md5'
-      Digest::MD5.file("public/#{file}").hexdigest[0..4]
-    end
+private
+  def coat(file)
+    require 'digest/md5'
+    Digest::MD5.file("views/#{file}").hexdigest[0..4]
+  end
+
+  def root(*args)
+    File.join(File.expand_path(File.dirname(__FILE__)), *args)
+  end
 end
 
 Cuba.define do
-  def not_found()
-    res.status = 404
-    res.write render('views/404.haml')
-  end
+  extend Cuba::Prelude
 
   on get do
     on path('') do
       @messages = Message.all(:order => [:created_at.desc], :limit => 20)
-      res.write render('views/messages.haml')
+      res.write slim 'messages'
     end
 
-    on path('css/styles.css') do
-      if req.query_string =~ /^\w{5}$/
-        res.headers['Cache-Control'] = 'public, max-age=29030400'
+    on path('login') do
+      @auth ||= Rack::Auth::Basic::Request.new(env)
+
+      if @auth.provided? and @auth.basic? and @auth.credentials
+        @person = authenticate(@auth.credentials[0], @auth.credentials[1])
       end
-      res.headers['Content-Type'] = 'text/css; charset=utf-8'
-      res.write render('public/css/styles.sass')
+
+      unless @person
+        res.headers['WWW-Authenticate'] = %(Basic realm='btsgroup')
+        res.status = 401
+        res.write 'Don\'t think we don\'t love you.'
+      else
+        # set session
+        res.redirect '/'
+      end
     end
 
+    on path('css'), path('styles.css') do
+      res.write stylesheet('css/styles.sass')
+    end
 
     on default do
       not_found
