@@ -5,11 +5,12 @@
 #   then a dot and a 'de')
 #
 
-if defined? Encoding
-  Encoding.default_external = Encoding::UTF_8
-  Encoding.default_internal = Encoding::UTF_8
-end
+class Visit
+  include DataMapper::Resource
 
-require './app'
-run BTS
+  property :person_id, Integer, key: true
+  timestamps :at
+
+  belongs_to :person
+end
 

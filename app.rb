@@ -1,58 +1,96 @@
+# encoding: utf-8
 #
-#   this is btsgroup.de, a cuba application
-#   it is copyright (c) 2011 danilo braband (danilo @ berlin,
+#   this is pinub.com, a sinatra application
+#   it is copyright (c) 2010-2011 danilo braband (danilo @ berlin,
 #   then a dot and a 'de')
 #
 
-require 'cuba'
-require 'slim'
-require 'rack/no-www'
+require 'bundler'
+Bundler.require
 
-Dir.glob('./lib/*.rb') do |lib|
-  require lib
+RACK_ENV = ENV['RACK_ENV'] ||= 'development' unless defined? RACK_ENV
+ROOT_DIR = File.dirname(__FILE__) unless defined? ROOT_DIR
+
+# Helper method for file references.
+#
+# @params args [Array] Path components relative to ROOT_DIR.
+# @example Referencing a file in config called settings.yml:
+#   root_path('config', 'settings.xml')
+def root_path(*args)
+  File.join(ROOT_DIR, *args)
 end
 
-Cuba.use Rack::NoWWW
 
-Cuba.define do
-  extend Cuba::Prelude
+# Sinatra::Base. This way, we're not polluting the global namespace with your
+# methods and routes and such.
+class BTS < Sinatra::Base; end
 
-  on get do
-    on path('') do
-      @messages = {}
-      res.write slim 'messages'
-    end
+class BTS
+  set :root, root_path
+  set :default_locale, 'de'
 
-    on path('login') do
-      @auth ||= Rack::Auth::Basic::Request.new(env)
+  register Sinatra::R18n
 
-      if @auth.provided? and @auth.basic? and @auth.credentials
-        @person = authenticate(@auth.credentials[0], @auth.credentials[1])
-      end
+  use Rack::ForceDomain, ENV['DOMAIN']
+  # We're using rack-timeout to ensure that our dynos don't get starved by
+  # renegade processes.
+  use Rack::Timeout
+  Rack::Timeout.timeout = 10
 
-      unless @person
-        res.headers['WWW-Authenticate'] = %(Basic realm='btsgroup')
-        res.status = 401
-        res.write 'Don\'t think we don\'t love you.'
-      else
-        # set session
-        res.redirect '/'
-      end
-    end
-
-    on path('css'), path('styles.css') do
-      res.write stylesheet('css/styles.sass')
-    end
-
-    on default do
-      not_found
+  configure :development, :test do
+    begin
+      require 'ruby-debug'
+    rescue LoadError
     end
   end
 
-  on post do
-    path('settings') do
-      # save settings
+  helpers do
+    [:development, :production, :test].each do |environment|
+      define_method "#{environment.to_s}?" do
+        return settings.environment == environment.to_sym
+      end
     end
   end
+
+  DataMapper::Logger.new($stdout, :debug) if development?
+  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:db/local.db?encoding=utf8')
+
+
+  # for wasitup
+  head '/' do; end
+
+
+  get '/' do
+    redirect(to('/login')) unless has_auth?
+
+    @count, @messages = Message.paginated
+  end
+
+
+  post '/new' do
+  end
+
+
+  get '/login' do
+  end
+
+
+  post '/login' do
+  end
+
+
+  get '/logout' do
+  end
+
+
+  put '/settings' do
+  end
+
 end
+
+# helpers
+require(root_path('helpers.rb'))
+
+# models
+Dir[root_path('models/*.rb')].each { |file| require file }
 
