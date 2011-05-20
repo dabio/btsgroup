@@ -28,14 +28,16 @@ class BTS < Sinatra::Base; end
 class BTS
   set :root, root_path
   set :default_locale, 'de'
+  set :cdn, '//btsgroup.commondatastorage.googleapis.com'
 
   register Sinatra::R18n
 
   use Rack::ForceDomain, ENV['DOMAIN']
+  use Rack::Session::Cookie
   # We're using rack-timeout to ensure that our dynos don't get starved by
   # renegade processes.
-  use Rack::Timeout
-  Rack::Timeout.timeout = 10
+  #use Rack::Timeout
+  #Rack::Timeout.timeout = 10
 
   configure :development, :test do
     begin
@@ -61,9 +63,11 @@ class BTS
 
 
   get '/' do
-    redirect(to('/login')) unless has_auth?
+    redirect to('/login') unless has_auth?
 
-    @count, @messages = Message.paginated
+    @count, @messages = Message.paginated(page: current_page, per_page: 20,
+                                          order: [:created_at.desc])
+    slim :index
   end
 
 
@@ -72,10 +76,21 @@ class BTS
 
 
   get '/login' do
+    redirect to('/') if has_auth?
+    slim :login
   end
 
 
   post '/login' do
+    @person = Person.authenticate(params[:email], params[:password])
+
+    if @person
+      session[:person_id] = @person.id
+      redirect to('/')
+    end
+
+    flash[:notice] = 'Unbekannte E-Mail oder falsches Passwort eingegeben.'
+    slim :login
   end
 
 
@@ -84,6 +99,12 @@ class BTS
 
 
   put '/settings' do
+  end
+
+  get '/css/:stylesheet.css' do
+    content_type 'text/css', charset: 'UTF-8'
+    cache_control :public, max_age: 29030400
+    scss :"css/#{params[:stylesheet]}"
   end
 
 end

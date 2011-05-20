@@ -9,7 +9,7 @@ class Message
   include DataMapper::Resource
 
   property :id,     Serial
-  property :text,   Text, required: true, lazy: false
+  property :text,   Text, required: true
   timestamps :at
 
   belongs_to :person, required: true

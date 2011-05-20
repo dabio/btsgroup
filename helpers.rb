@@ -31,6 +31,16 @@ module Helpers
     end
   end
 
+  def coat(file)
+    require 'digest/md5'
+    hash = Digest::MD5.file("#{settings.views}/#{file}").hexdigest[0..4]
+    "#{file.gsub(/\.scss$/, '.css')}?#{hash}"
+  end
+
+  def current_page
+    @page = params[:page] && params[:page].match(/\d+/) ? params[:page].to_i : 1
+  end
+
   # This gives us the currently logged in user. We keep track of that by just
   # setting a session variable with their is. If it doesn't exist, we want to
   # return nil.
@@ -55,6 +65,31 @@ module Helpers
     str.concat end_tag
   end
 
+  def timesince(d, now=Time.now)
+    delta = (now - d.to_time).to_i
+    return '0 Minuten' if delta <= 60
+
+    chunks = [
+      [60 * 60 * 24 * 356, 'Jahr',   'Jahre'],
+      [60 * 60 * 24 * 30,  'Monat',  'Monate'],
+      [60 * 60 * 24 * 7,   'Woche',  'Wochen'],
+      [60 * 60 * 24,       'Tag',    'Tage'],
+      [60 * 60,            'Stunde', 'Stunden'],
+      [60,                 'Minute', 'Minuten']
+    ]
+
+    ret = []
+    pluralize = lambda {|amount, singular, plural| amount > 1 ? plural : singular}
+
+    chunks.each do |seconds, singular, plural|
+      amount, delta = delta.divmod(seconds)
+      ret.push "#{amount} #{pluralize[amount, singular, plural]}" if amount > 0
+      break if ret.length > 1
+    end
+
+    ret.join ', '
+  end
+
   def today
     @today = Date.today unless @today
     @today
@@ -65,6 +100,26 @@ end
 class BTS
   helpers do
     include Helpers
+  end
+end
+
+
+class Hash
+  def except(*keys)
+    dup.except!(*keys)
+  end
+
+  def except!(*keys)
+    keys.each { |key| delete(key) }
+    self
+  end
+
+  def reverse_merge(other_hash)
+    other_hash.merge(self)
+  end
+
+  def reverse_merge!(other_hash)
+    replace(reverse_merge(other_hash))
   end
 end
 

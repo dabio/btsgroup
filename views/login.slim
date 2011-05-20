@@ -1,0 +1,13 @@
+doctype html
+html
+  == slim :_head
+
+body
+  form#login action='/login' method='post'
+    fieldset
+      label for='email' E-Mail
+      input#email name='email' type='email' autofocus='autofocus'
+      label for='password' Passwort
+      input#password name='password' type='password'
+      button type='submit' Anmelden
+

@@ -1,3 +1,151 @@
+$body_background-color: #21272b;
+$body_color: #ececec;
+$a_color: #a58c62;
+$font-size: 14px;
+$font-size_small: 11px;
+
+@import 'fonts';
+@import 'reset';
+
+a {
+  color: $a_color;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+body {
+  background-color: $body_background-color;
+  color: $body_color;
+  font: 14px/25px "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+button {
+  background: url(/img/button_bg.gif) 0 0 repeat-x;
+  border: 1px solid #1d1d1f;
+  color: #ececec;
+  cursor: pointer;
+  display: block;
+  font-size: $font-size_small;
+  height: 25px;
+  margin-top: 3px;
+  padding: 0 10px;
+  text-shadow: #000 1px 1px 1px;
+  white-space: nowrap;
+}
+button:hover {
+  background-position: 0 -23px;
+}
+
+input, textarea {
+  border: 1px solid #bbb;
+  border-top: 1px solid #aeaeae;
+}
+input {
+  line-height: 18px;
+  width: 180px;
+}
+textarea {
+  height: 75px;
+  line-height: 25px;
+  width: 378px;
+}
+
+p {
+  margin-bottom: 25px;
+}
+
+#login {
+  margin: 50px auto;
+  width: 270px;
+  button {
+    margin-left: 79px;
+  }
+  label {
+    width: 75px;
+  }
+}
+
+#settings label, #login label {
+  display: block;
+  float: left;
+  margin-right: 5px;
+  text-align: right;
+}
+
+#content {
+  margin: 0 auto;
+  width: 860px;
+}
+
+#header {
+  height: 100px;
+  width: 860px;
+
+  h1 a {
+    background: url(/img/header.gif) 31px 47px no-repeat;
+    display: block;
+    height: 100px;
+    text-indent: -999px;
+    width: 296px;
+  }
+  h1 a:hover, h1 a:focus {
+    outline: none;
+  }
+}
+
+#messages {
+  width: 540px;
+  li {
+    margin-bottom: 25px;
+    overflow: auto;
+    .time {
+      color: #778796;
+      display: block;
+      font-size: 10px;
+      line-height: 14px;
+      margin: 0 80px;
+      padding-top: 11px;
+      text-shadow: #000 1px 1px 1px;
+    }
+    .message {
+      margin-left: 80px;
+      margin-right: 80px;
+    }
+    .aside, .aside-right {
+      float: left;
+      margin-left: 20px;
+      overflow: auto;
+      img {
+        border: 1px solid #ececec;
+        display: block;
+        float: left;
+      }
+    }
+    .aside-right {
+      float: right;
+      margin-left: 0;
+      margin-right: 20px;
+    }
+  }
+  li.first {
+    margin-bottom: 0;
+    overflow: hidden;
+    .aside-right {
+      margin-top: 25px;
+    }
+  }
+}
+
+#footer {
+  clear: both;
+  font-size: 10px;
+  padding: 25px 80px;
+}
+ 
+
+
+/*
 $body_background-color: #21272b
 $body_color: #ececec
 $a_color: #a58c62
@@ -408,5 +556,5 @@ body
   -moz-box-shadow: inset #222 0 0 3px
   -webkit-box-shadow: inset #222 0 0 3px
   box-shadow: inset #222 0 0 3px
-
+*/
 

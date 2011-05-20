@@ -11,21 +11,23 @@ class Person
   property :id,     Serial
   property :first_name, String, required: true
   property :last_name,  String, required: true
-  property :email,      String, required: true, format: email, unique: true
+  property :email,      String, required: true, format: :email_address, unique: true
   property :password,   BCryptHash, required: true
   timestamps :at
 
   has n, :messages
   has n, :visits
 
-  attr_accessor :password_confirmation
 
-  validates_confirmation_of :password, if: :password_required?
-
-
-private
-  def password_required?
-    !password.empty?
+  def avatar_url
+    "/people/#{first_name}.png"
   end
+
+
+  def self.authenticate(email, password)
+    return nil unless person = Person.first(email: email)
+    person.password == password ? person : nil
+  end
+
 end
 
