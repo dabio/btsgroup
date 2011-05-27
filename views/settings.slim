@@ -1,0 +1,81 @@
+doctype html
+html
+  == slim :_head
+
+body
+  #content
+
+    == slim :_header
+
+    #main
+
+      h1 Einstellungen
+
+      form#settings method='post' action='/settings'
+        p
+          label for='person_email' E-Mail
+          input type='email' id='person_email' name='person[email]' value=current_person.email
+          br
+          label for='person_notice' Benachrichtigung
+          select id='person_notice' name='person[notice]'
+
+            - if current_person.notice == :immediately
+              option value='immediately' selected='selected' sofort
+            - else
+              option value='immediately' sofort
+
+            - if current_person.notice == :daily
+              option value='daily' selected='selected' täglich
+            - else
+              option value='daily' täglich
+
+            - if current_person.notice == :weekly
+              option value='weekly' selected='selected' wöchentlich
+            - else
+              option value='weekly' wöchentlich
+
+            - if current_person.notice == :off
+              option value='off' selected='selected' aus
+            - else
+              option value='off' aus
+
+        h4 Passwort ändern. Nur ausfüllen, wenn das Passwort geändert werden soll.
+        p
+          label for='person_password' Password
+          input type='password' id='person_password' name='person[password]' value=''
+          br
+          label for='person_pc' Passwortwiederholung
+          input type='password' id='person_pc' name='person[password_confirmation]' value=''
+
+        p
+          button type='submit' Speichern
+
+      == slim :_settings
+
+    == slim :_footer
+
+  javascript:
+    $('#settings').submit(function(e){
+      var button = $('#settings button'),
+          text_before = button.text();
+      
+      // prevent submitting
+      e.preventDefault();e.stopPropagation();
+      
+      // change button
+      button.text('Wird gespeichert').attr('disabled', 'disabled');
+      
+      // ajax request
+      $.ajax({
+        url: '/settings',
+        method: 'put',
+        data: $(this).serialize(),
+        success: function(resp) {
+          button.text(text_before).attr('disabled', '')
+        },
+        failure: function(err) {
+        }
+      })
+    })
+
+

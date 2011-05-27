@@ -1,0 +1,15 @@
+#pagination
+  em Zeit: 
+  - if (@page.to_i - 1) > 0
+    - if (@page.to_i - 1 != 1)
+      a href="/?page=#{@page.to_i-1}" « später
+    - else
+      a href='/' « später
+  - else
+    span « später
+  span.sep  · 
+  - if @page.to_i < @count
+    a href="/?page=#{@page.to_i+1}" früher »
+  - else
+    span früher »
+

@@ -2,13 +2,14 @@ $body_background-color: #21272b;
 $body_color: #ececec;
 $a_color: #a58c62;
 $font-size: 14px;
-$font-size_small: 11px;
+$font-size_small: 10px;
 
 @import 'fonts';
 @import 'reset';
 
 a {
   color: $a_color;
+  cursor: pointer;
   text-decoration: none;
 }
 a:hover {
@@ -36,10 +37,14 @@ button {
 button:hover {
   background-position: 0 -23px;
 }
+button:disabled {
+  color: #888;
+}
 
 input, textarea {
   border: 1px solid #bbb;
   border-top: 1px solid #aeaeae;
+  font: 12px "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 input {
   line-height: 18px;
@@ -51,8 +56,25 @@ textarea {
   width: 378px;
 }
 
+h2 {
+  color: #778796;
+  font-size: 18px;
+  text-shadow: #000 1px 1px 1px;
+}
+
 p {
   margin-bottom: 25px;
+}
+
+#main {
+  position: relative;
+
+  h1 {
+    margin: 0 0 25px 80px;
+    font-size: 18px;
+    line-height: 25px;
+    padding-top: 25px;
+  }
 }
 
 #login {
@@ -66,15 +88,36 @@ p {
   }
 }
 
-#settings label, #login label {
+#login label {
   display: block;
   float: left;
   margin-right: 5px;
   text-align: right;
 }
+#settings {
+  padding-left: 80px;
+
+  label {
+    color: #778796;
+    display: block;
+    font-size: 11px;
+    line-height: 14px;
+    padding-top: 11px;
+    text-shadow: #000 1px 1px 1px;
+  }
+
+  h4 {
+    color: #778796;
+    display: block;
+    font-size: 14px;
+    line-height: 25px;
+    text-shadow: #000 1px 1px 1px;
+  }
+}
 
 #content {
   margin: 0 auto;
+  position: relative;
   width: 860px;
 }
 
@@ -94,19 +137,37 @@ p {
   }
 }
 
+#message {
+  padding-bottom: 12px;
+  margin: 25px 80px 0 80px;
+  button {
+    //overflow: auto
+    float: right;
+  }
+}
+
 #messages {
+  margin-bottom: 25px;
   width: 540px;
   li {
     margin-bottom: 25px;
     overflow: auto;
-    .time {
-      color: #778796;
+    .headline {
       display: block;
+      color: #778796;
       font-size: 10px;
       line-height: 14px;
       margin: 0 80px;
+      overflow: auto;
       padding-top: 11px;
       text-shadow: #000 1px 1px 1px;
+    }
+    .time {
+      float: left;
+    }
+    .edit {
+      float: right;
+      display: none;
     }
     .message {
       margin-left: 80px;
@@ -128,12 +189,45 @@ p {
       margin-right: 20px;
     }
   }
+  li:hover .edit {
+    display: block;
+  }
   li.first {
     margin-bottom: 0;
     overflow: hidden;
     .aside-right {
       margin-top: 25px;
     }
+  }
+}
+
+#aside {
+  position: absolute;
+  left: 560px;
+  top: 0;
+  ul {
+    margin-bottom: 25px;
+  }
+  li {
+    font-size: 11px;
+    line-height: 18.75px;
+    .time {
+      color: #778796;
+    }
+  }
+}
+
+#pagination {
+  clear: both;
+  color: #363f47;
+  font-size: 10px;
+  margin: 25px 0;
+  padding: 0 80px;
+  a {
+    color: #778796;
+  }
+  em {
+    color: #778796;
   }
 }
 

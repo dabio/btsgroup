@@ -1,0 +1,15 @@
+/- if @page == 1
+#aside
+  - if @events.count > 0
+    #events
+      h2 Geburtstage
+      ul
+        - @events.each do |l|
+          li #{e.event.title} <span class='time'>#{l l.time, :human}</span>
+
+  #visits
+    h2 Besucher
+    ul
+      - @visits.each do |v|
+        li #{v.person.first_name} (vor #{timesince v.updated_at})
+

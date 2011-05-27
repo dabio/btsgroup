@@ -26,6 +26,7 @@ end
 class BTS < Sinatra::Base; end
 
 class BTS
+  set :method_override, true
   set :root, root_path
   set :default_locale, 'de'
   set :cdn, '//btsgroup.commondatastorage.googleapis.com'
@@ -33,11 +34,11 @@ class BTS
   register Sinatra::R18n
 
   use Rack::ForceDomain, ENV['DOMAIN']
-  use Rack::Session::Cookie
+  use Rack::Session::Cookie, expire_after: 60 * 60 * 24 * 7
   # We're using rack-timeout to ensure that our dynos don't get starved by
   # renegade processes.
-  #use Rack::Timeout
-  #Rack::Timeout.timeout = 10
+  use Rack::Timeout
+  Rack::Timeout.timeout = 10
 
   configure :development, :test do
     begin
@@ -65,6 +66,8 @@ class BTS
   get '/' do
     redirect to('/login') unless has_auth?
 
+    @events = EventLink.all(:time.gte => today, :time.lt => today >> 1, order: [:time])
+    @visits = Visit.all(order: [:updated_at.desc])
     @count, @messages = Message.paginated(page: current_page, per_page: 20,
                                           order: [:created_at.desc])
     slim :index
@@ -95,11 +98,46 @@ class BTS
 
 
   get '/logout' do
+    session[:person_id] = nil if has_auth?
+    redirect to('/login')
+  end
+
+
+  get '/settings' do
+    redirect to('/login') unless has_auth?
+    slim :settings
   end
 
 
   put '/settings' do
+    redirect to('login') unless has_auth?
+
+    current_person.attributes = {
+      email: params[:person]['email'],
+      notice: params[:person]['notice']
+    }
+
+    unless params[:person]['password'].nil? or params[:person]['password'].empty? or params[:person]['password'] == 'true'
+      # fixes a reqwest bug - password fields are set to "true"
+      current_person.password = params[:person]['password']
+      current_person.password_confirmation = params[:person]['password_confirmation']
+    end
+
+    content_type :json
+    if current_person.save
+      {flash: {notice: 'Änderungen gespeichert'}}.to_json
+    else
+      {flash: {error: 'Fehler beim Speichern'}}.to_json
+    end
+
   end
+
+
+  put '/visit' do
+    redirect to('/login') unless has_auth?
+    Visit.first_or_create(person: current_person).update(created_at: Time.now)
+  end
+
 
   get '/css/:stylesheet.css' do
     content_type 'text/css', charset: 'UTF-8'
