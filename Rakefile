@@ -21,6 +21,26 @@ task :test do
 end
 
 
+desc "This task is called by the Heroku cron add-on"
+task :cron do
+  require './app'
+  DataMapper.setup(:default, ENV['DATABASE_URL'] || 'sqlite3:db/local.db?encoding=utf8')
+
+  # send emails for weekly subscriptions on thursday
+  if Time.now.thursday?
+    people = People.all(:notice => :weekly) + People.all(:notice => :daily)
+  else
+    people = People.all(:notice => :daily)
+  end
+
+  # walk through all people and send an email to each of them
+  people.each do |person|
+    person.send_notice
+  end
+
+end
+
+
 task :uninstall do
   system "rvm", "--force", "gemset", "empty"
   File.unlink "Gemfile.lock"
