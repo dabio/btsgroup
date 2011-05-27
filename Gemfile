@@ -14,6 +14,7 @@ gem 'dm-validations'
 gem 'bcrypt-ruby', require: 'bcrypt'
 gem 'newrelic_rpm'
 gem 'unidecode'
+gem 'json'
 
 group :development, :test do
   gem 'dm-sqlite-adapter'
