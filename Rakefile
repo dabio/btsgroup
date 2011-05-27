@@ -47,8 +47,8 @@ namespace "db" do
 
   desc 'Upgrade the database tables.'
   task :upgrade => :prepare do
-    require 'dm-migrations'
-    DataMapper.auto_upgrade!
+    adapter = DataMapper.repository(:default).adapter
+    adapter.execute('ALTER TABLE people ADD COLUMN `notice` integer NOT NULL DEFAULT 2;')
   end
 
   desc 'Pull database from heroku'
