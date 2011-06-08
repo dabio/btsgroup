@@ -28,9 +28,9 @@ task :cron do
 
   # send emails for weekly subscriptions on thursday
   if Time.now.thursday?
-    people = People.all(:notice => :weekly) + People.all(:notice => :daily)
+    people = Person.all(:notice => :weekly) + Person.all(:notice => :daily)
   else
-    people = People.all(:notice => :daily)
+    people = Person.all(:notice => :daily)
   end
 
   # walk through all people and send an email to each of them
