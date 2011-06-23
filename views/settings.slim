@@ -12,6 +12,7 @@ body
       h1 Einstellungen
 
       form#settings method='post' action='/settings'
+        input type='hidden' name='_method' value='put'
         p
           label for='person_email' E-Mail
           input type='email' id='person_email' name='person[email]' value=current_person.email
@@ -58,22 +59,20 @@ body
     $('#settings').submit(function(e){
       var button = $('#settings button'),
           text_before = button.text();
-      
       // prevent submitting
       e.preventDefault();e.stopPropagation();
-      
       // change button
       button.text('Wird gespeichert').attr('disabled', 'disabled');
-      
       // ajax request
       $.ajax({
         url: '/settings',
         method: 'put',
         data: $(this).serialize(),
         success: function(resp) {
-          button.text(text_before).attr('disabled', '')
+          button.text(text_before).removeAttr('disabled')
         },
-        failure: function(err) {
+        error: function(err) {
+          button.text(text_before).removeAttr('disabled')
         }
       })
     })

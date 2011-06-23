@@ -75,6 +75,12 @@ class BTS
 
 
   post '/new' do
+    redirect to('/login') unless has_auth?
+
+    message = Message.new(params[:message])
+    message.person = current_person
+
+    #status 500 unless message.save
   end
 
 
@@ -117,25 +123,34 @@ class BTS
       notice: params[:person]['notice']
     }
 
-    unless params[:person]['password'].nil? or params[:person]['password'].empty? or params[:person]['password'] == 'true'
-      # fixes a reqwest bug - password fields are set to "true"
+    unless params[:person]['password'].nil? or params[:person]['password'].empty?
       current_person.password = params[:person]['password']
       current_person.password_confirmation = params[:person]['password_confirmation']
     end
 
-    content_type :json
-    if current_person.save
-      {flash: {notice: 'Änderungen gespeichert'}}.to_json
-    else
-      {flash: {error: 'Fehler beim Speichern'}}.to_json
-    end
+    status 500 unless current_person.save
+  end
 
+
+  get '/pull' do
+    redirect to('/login') unless has_auth?
+
+    now = Time.now
+    Visit.first_or_create(person: current_person).update(created_at: now)
+
+    # get last visit
+    visit = params[:last_visit] ? params[:last_visit] : now.to_i
+
+    # get new messages
+    messages = Message.all(:updated_at.gte => now)
+    puts JSON({'last_visit' => visit, 'messages' => messages})
+
+    "'#{Time.now}'"
   end
 
 
   put '/visit' do
     redirect to('/login') unless has_auth?
-    Visit.first_or_create(person: current_person).update(created_at: Time.now)
   end
 
 

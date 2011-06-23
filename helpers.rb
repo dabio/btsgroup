@@ -34,7 +34,12 @@ module Helpers
   def coat(file)
     require 'digest/md5'
     hash = Digest::MD5.file("#{settings.views}/#{file}").hexdigest[0..4]
-    "#{file.gsub(/\.scss$/, '.css')}?#{hash}"
+
+    {scss: 'css'}.each do |key, value|
+      file.gsub!(/\.#{key}$/, ".#{value}")
+    end
+
+    "#{file}?#{hash}"
   end
 
   def current_page

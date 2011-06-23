@@ -1,7 +1,8 @@
 #footer
   a href='https://github.com/dabio/btsgroup' title='source is here' source
 
-script src='/js/ender.js'
-- if production?
+script src='/js/ender.min.js'
+script src='/js/main.js'
+/- if production?
   javascript:
     $.ajax({url:'/visit',method:'put'})

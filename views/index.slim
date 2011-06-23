@@ -15,7 +15,7 @@ body
               img src="#{{settings.cdn}}#{{current_person.avatar_url}}" alt=current_person.first_name height=48 width=48
             form#message action='/new' method='post'
               p
-                textarea autofocus='autofocus' id='text' name='text' required='required'
+                textarea autofocus='autofocus' id='text' name='message[text]' required='required'
                 button type='submit' Up-Chicken!
 
         - @messages.each do |m|
@@ -27,7 +27,7 @@ body
                 - else
                   = "#{m.person.first_name}, am #{l m.created_at, :human}"
 
-              - if current_person == m.person
+              /- if current_person == m.person
                 .edit
                   a title="Bearbeiten" Bearbeiten
 
