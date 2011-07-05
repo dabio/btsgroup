@@ -1,10 +1,9 @@
 class Notification
     max_request_ms = 30000
     next_request_ms = default_request_ms = 2000
-    url = '/pull'
-    last_timestamp = 123
-    active = false
-    active_timeout = false
+    url = '/update.json'
+    # reset some variables
+    last_timestamp = active = active_timeout = false
 
     constructor: ->
         @reset()
@@ -16,22 +15,33 @@ class Notification
 
     pull = ->
         active = true
+        data = if last_timestamp then "last_visit=#{last_timestamp}" else ''
         $.ajax({
             url: url,
-            method: 'get',
+            data: data,
+            method: 'post',
             success: (resp) ->
                 active = false
                 update_next_request_ms()
+                eval("(#{callback}(resp))") for callback in resp.callback
                 active_timeout = window.setTimeout(pull, next_request_ms)
-                console.log(resp)
         })
+
+    save_last_visit = (resp) ->
+      last_timestamp = resp.last_visit
 
     update_next_request_ms = ->
         next_request_ms = next_request_ms * 2
         next_request_ms = max_request_ms if next_request_ms > max_request_ms
 
-
 note = new Notification
+
+show_messages = (resp) ->
+  return true unless resp.messages or resp.messages.length < 1
+  # get first visible message
+  last_message = $('ul#messages > li.first')
+  last_message.after(message) for message in resp.messages
+  console.log(resp)
 
 
 submit_form = (form, event) ->

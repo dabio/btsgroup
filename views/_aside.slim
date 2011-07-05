@@ -11,5 +11,10 @@
     h2 Besucher
     ul
       - @visits.each do |v|
-        li #{v.person.first_name} (vor #{timesince v.updated_at})
+        li
+          span #{v.person.first_name}
+          - if v.person == current_person or v.updated_at > today + 45
+            span.online  (online)
+          - else
+            span  (vor #{timesince v.updated_at})
 

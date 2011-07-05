@@ -80,7 +80,7 @@ class BTS
     message = Message.new(params[:message])
     message.person = current_person
 
-    #status 500 unless message.save
+    status 500 unless message.save
   end
 
 
@@ -132,32 +132,28 @@ class BTS
   end
 
 
-  get '/pull' do
+  post '/update.json' do
     redirect to('/login') unless has_auth?
 
     now = Time.now
     Visit.first_or_create(person: current_person).update(created_at: now)
 
     # get last visit
-    visit = params[:last_visit] ? params[:last_visit] : now.to_i
+    last_visit = params[:last_visit] ? params[:last_visit] : now.to_i
+    callback_functions = ['save_last_visit']
 
     # get new messages
-    messages = Message.all(:updated_at.gte => now)
-    puts JSON({'last_visit' => visit, 'messages' => messages})
+    messages = Message.all(:updated_at.gte => Time.at(last_visit.to_i),
+                           :order => :updated_at.desc)
+    messages_html = []
+    messages.each do |message|
+      messages_html << slim(:_message, locals: {message: message})
+    end
+    callback_functions.push('show_messages') if messages.length > 0
 
-    "'#{Time.now}'"
-  end
-
-
-  put '/visit' do
-    redirect to('/login') unless has_auth?
-  end
-
-
-  get '/css/:stylesheet.css' do
-    content_type 'text/css', charset: 'UTF-8'
-    cache_control :public, max_age: 29030400
-    scss :"css/#{params[:stylesheet]}"
+    content_type :json
+    {'last_visit' => now.to_i, 'callback' => callback_functions,
+         'messages' => messages_html}.to_json
   end
 
 end

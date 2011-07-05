@@ -1,13 +1,11 @@
 (function() {
-  var Notification, form_method, note, submit_form;
+  var Notification, form_method, note, show_messages, submit_form;
   Notification = (function() {
-    var active, active_timeout, default_request_ms, last_timestamp, max_request_ms, next_request_ms, pull, update_next_request_ms, url;
+    var active, active_timeout, default_request_ms, last_timestamp, max_request_ms, next_request_ms, pull, save_last_visit, update_next_request_ms, url;
     max_request_ms = 30000;
     next_request_ms = default_request_ms = 2000;
-    url = '/pull';
-    last_timestamp = 123;
-    active = false;
-    active_timeout = false;
+    url = '/update.json';
+    last_timestamp = active = active_timeout = false;
     function Notification() {
       this.reset();
     }
@@ -19,17 +17,28 @@
       }
     };
     pull = function() {
+      var data;
       active = true;
+      data = last_timestamp ? "last_visit=" + last_timestamp : '';
       return $.ajax({
         url: url,
-        method: 'get',
+        data: data,
+        method: 'post',
         success: function(resp) {
+          var callback, _i, _len, _ref;
           active = false;
           update_next_request_ms();
-          active_timeout = window.setTimeout(pull, next_request_ms);
-          return console.log(resp);
+          _ref = resp.callback;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            callback = _ref[_i];
+            eval("(" + callback + "(resp))");
+          }
+          return active_timeout = window.setTimeout(pull, next_request_ms);
         }
       });
+    };
+    save_last_visit = function(resp) {
+      return last_timestamp = resp.last_visit;
     };
     update_next_request_ms = function() {
       next_request_ms = next_request_ms * 2;
@@ -40,6 +49,19 @@
     return Notification;
   })();
   note = new Notification;
+  show_messages = function(resp) {
+    var last_message, message, _i, _len, _ref;
+    if (!(resp.messages || resp.messages.length < 1)) {
+      return true;
+    }
+    last_message = $('ul#messages > li.first');
+    _ref = resp.messages;
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      message = _ref[_i];
+      last_message.after(message);
+    }
+    return console.log(resp);
+  };
   submit_form = function(form, event) {
     var btn, btn_text_before;
     form = $(form);
