@@ -5,16 +5,10 @@
       h2 Geburtstage
       ul
         - @events.each do |l|
-          li #{e.event.title} <span class='time'>#{l l.time, :human}</span>
+          li #{l.event.title} <span class='time'>#{l l.time, :human}</span>
 
-  #visits
-    h2 Besucher
-    ul
-      - @visits.each do |v|
-        li
-          span #{v.person.first_name}
-          - if v.person == current_person or v.updated_at > today + 45
-            span.online  (online)
-          - else
-            span  (vor #{timesince v.updated_at})
+  h2 Besucher
+  ul#visits
+    - @visits.each do |visit|
+      == slim :_visit, locals: {visit: visit}
 

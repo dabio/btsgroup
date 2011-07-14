@@ -10,6 +10,7 @@ class Event
 
   property :id,         Serial
   property :time,       Date, required: true
+  property :title,      String, required: true
   property :recurrence, Enum[:once, :yearly], default: :once
   timestamps :at
 

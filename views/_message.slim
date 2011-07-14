@@ -1,4 +1,4 @@
-li
+li class="#{defined?(css_class) && css_class}"
   .headline
     .time
       - if (Time.now - message.created_at.to_time).to_i < 691200

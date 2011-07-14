@@ -4,10 +4,13 @@ html
 
 body
   form#login action='/login' method='post'
-    fieldset
+    p
       label for='email' E-Mail
-      input#email name='email' type='email' autofocus='autofocus'
+      input name='email' type='email' autofocus='autofocus'
       label for='password' Passwort
-      input#password name='password' type='password'
+      input name='password' type='password'
       button type='submit' Anmelden
+
+  script src='/js/ender.js'
+  script src='/js/login.js'
 

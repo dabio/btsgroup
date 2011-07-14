@@ -1,0 +1,6 @@
+li
+  span = visit.person.first_name
+  - if visit.person == current_person or visit.updated_at > today + 45
+    span.online  (online)
+  - else
+    span  (vor #{timesince visit.updated_at})

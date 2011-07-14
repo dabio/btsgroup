@@ -91,15 +91,15 @@ class BTS
 
 
   post '/login' do
-    @person = Person.authenticate(params[:email], params[:password])
+    person = Person.authenticate(params[:email], params[:password])
 
-    if @person
-      session[:person_id] = @person.id
-      redirect to('/')
+    if person
+      session[:person_id] = person.id
+      status 204
+    else
+      status 403
     end
-
-    flash[:notice] = 'Unbekannte E-Mail oder falsches Passwort eingegeben.'
-    slim :login
+  
   end
 
 
@@ -142,18 +142,25 @@ class BTS
     last_visit = params[:last_visit] ? params[:last_visit] : now.to_i
     callback_functions = ['save_last_visit']
 
-    # get new messages
-    messages = Message.all(:updated_at.gte => Time.at(last_visit.to_i),
-                           :order => :updated_at.desc)
-    messages_html = []
+    # get all messages on this page
+    count, messages = Message.paginated(page: current_page, per_page: 20,
+                                        order: [:created_at.desc])
+    messages_html = Array.new
     messages.each do |message|
       messages_html << slim(:_message, locals: {message: message})
     end
-    callback_functions.push('show_messages') if messages.length > 0
+    callback_functions << 'update_messages' if messages.length > 0
+
+    # visits
+    visits_html = Array.new
+    Visit.all(order: [:updated_at.desc]).each do |visit|
+      visits_html << slim(:_visit, locals: {visit: visit})
+    end
+    callback_functions << 'update_visits' if visits_html.length > 0
 
     content_type :json
-    {'last_visit' => now.to_i, 'callback' => callback_functions,
-         'messages' => messages_html}.to_json
+    {last_visit: now.to_i, callback: callback_functions, visits: visits_html,
+      messages: messages_html}.to_json
   end
 
 end

@@ -235,3 +235,7 @@ p {
   clear: both;
   font-size: 10px;
   padding: 25px 80px; }
+
+.hidden {
+  display: none;
+  visibility: hidden; }
